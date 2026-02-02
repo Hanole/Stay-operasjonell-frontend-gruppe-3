@@ -6,7 +6,7 @@ Ansvarsområder:<br>
 Ansvarlig: Berfin Esmèe Anli Akyol<br>
 Reserve: Ole-Magnus Stallvik<br>
 <br>
-**<h1>Romliste og filtrering (rooms)</h1>** <br>
+**Romliste og filtrering (rooms)** <br>
 Ansvarlig: Ole-Magnus Stallvik<br>
 Reserve: Nathalia Ferreira Ramos<br>
 <br>
