@@ -2,7 +2,7 @@
 Operasjonell Frontend - Arbeidskrav 1, 2 og 3 - Gruppe 3
 <br><br>
 Stay er en tjeneste som skal gjøre det enklere for brukere å finne og booke rom hos Bed & Breakfast-steder. Løsningen lar brukeren registrere seg, logge inn, utforske rom, lese og skrive anmeldelser, samt opprette og administrere egne bookinger.
-<br>
+<br><br>
 Løsningen bruker et eksisterende API med ressursene USERS, ROOMS og BOOKING. Full CRUD (opprette, lese, oppdatere og slette data) er implementert mot disse ressursene i tråd med kravspesifikasjonen.
 <br><br>
 Ansvarsområder:<br>
