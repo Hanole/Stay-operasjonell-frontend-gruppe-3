@@ -1,6 +1,8 @@
 # operasjonell-frontend-gruppe-3<br>
 Operasjonell Frontend - Arbeidskrav 1, 2 og 3 - Gruppe 3
-
+<br>
+Stay er en tjeneste som skal gjøre det enklere for brukere å finne og booke rom hos Bed & Breakfast-steder. Løsningen lar brukeren registrere seg, logge inn, utforske rom, lese og skrive anmeldelser, samt opprette og administrere egne bookinger.
+<br>
 Ansvarsområder:<br>
 **Konto og bruker (users)**<br>
 Ansvarlig: Berfin Esmèe Anli Akyol<br>
@@ -18,3 +20,6 @@ Reserve: Daniel Holm Barø<br>
 Ansvarlig: Daniel Holm Barø<br>
 Reserve: Berfin Esmèe Anli Akyol<br>
 <br>
+- UML-diagrammer: https://miro.com/app/board/uXjVGMXWkvk=/?share_link_id=749492013330
+- Wireframes: https://www.figma.com/design/Awiiqeg5yyRql8E3tYTdDh/Stay?node-id=0-1&t=2utp2tS03LIBiDWw-1
+- GitHub Projects: https://github.com/users/Hanole/projects/6
