@@ -1,8 +1,8 @@
 # operasjonell-frontend-gruppe-3<br>
 Operasjonell Frontend - Arbeidskrav 1, 2 og 3 - Gruppe 3
-<br>
+<br><br>
 Stay er en tjeneste som skal gjøre det enklere for brukere å finne og booke rom hos Bed & Breakfast-steder. Løsningen lar brukeren registrere seg, logge inn, utforske rom, lese og skrive anmeldelser, samt opprette og administrere egne bookinger.
-<br>
+<br><br>
 Ansvarsområder:<br>
 **Konto og bruker (users)**<br>
 Ansvarlig: Berfin Esmèe Anli Akyol<br>
