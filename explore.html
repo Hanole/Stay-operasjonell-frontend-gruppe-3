@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/src/pages/explore/explore.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <title>Explore</title>
+</head>
+<body>
+    <main class="explore">
+        <section class="explore-hero">
+            <h1>Explore rooms</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit tortor eu egestas morbi sem vulputate etiam facilisis.</p>
+        </section>
+        <section class="explore-filters">
+            <form class="explore-filters-form">
+                <div class="explore-filters-field field-start"> 
+                    <label for="filter-where" class="hidden-label">Where</label> 
+                    <input id="filter-where" type="text" placeholder="Hvor vil du reise?">
+                </div>
+                <div class="explore-filters-field"> 
+                    <label for="filter-from" class="hidden-label" >From Date</label>
+                    <input id="filter-from" type="text" placeholder="Når vil du reise?" onfocus="this.type='date'">
+                </div>
+                <div class="explore-filters-field"> 
+                    <label for="filter-to" class="hidden-label">To Date</label>
+                    <input id="filter-to" type="text" placeholder="Når er reisen over?" onfocus="this.type='date'">
+                </div>
+                <div class="explore-filters-field"> 
+                    <label for="filter-guests" class="hidden-label">Max Guests</label> 
+                    <input id="filter-guests" type="number" min="1" max="10" placeholder="Hvor mange blir dere?">
+                </div>
+                <div class="explore-filters-field field-end"> 
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </section>
+        <section class="explore-filters-chosen">
+            <div>
+
+            </div>
+        </section>
+        <section class="explore-content">
+            <div class="explore-rooms">
+                <div class="explore-room-card">
+                    <img src="/assets/rooms/Rectangle 14.png">
+                    <div class="explore-card-details">
+                        <div class="explore-card-bio">
+                            <h2>navn på rom</h2>
+                            <p>description</p>
+                            <div>
+                                <button>feature</button>
+                                <button>feature</button>
+                            </div>
+                        </div>
+                        <div class="explore-card-price">
+                            <div class="explore-card-price-info">
+                                <p>pricePerNight</p>
+                                <p>guests</p>
+                            </div>
+                            <button>-></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aside class="explore-sidebar">
+                <section class="explore-sidebar-section">
+                    <h2>Filter by</h2>
+                    <section class="explore-popular-filters">
+                        <h3>Popular filters</h3>
+                        <div>
+                            <label></label>
+                            <input type="checkbox">Egenskap</input>
+                        </div>
+                        <div>
+                            <input type="checkbox">Egenskap</input>
+                        </div>
+                        <div>
+                            <input type="checkbox">Egenskap</input>
+                        </div>
+                        <div>
+                            <input type="checkbox">Egenskap</input>
+                        </div>
+                        <div>
+                            <input type="checkbox">Egenskap</input>
+                        </div>
+                    </section>
+                </section>
+                <section class="explore-sidebar-section">
+                    <h2>Saved Searches</h2>
+                </section>
+            </aside>
+        </section>
+    </main>
+    <script type="module" src="/src/pages/explore/explore.ts"></script>
+</body>
+</html>

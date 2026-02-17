@@ -1,0 +1,189 @@
+* {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+}
+
+.explore {
+    background-color: #FFFFFF;
+    margin: 0 4rem;
+}
+
+.explore-hero {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    border: 4px green solid;
+    margin-bottom: 2rem;
+}
+
+.explore-filters {
+    background-color: #F9F9F9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
+    min-height: 80px;
+    margin-bottom: 2rem;
+}
+
+.explore-content {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.explore-filters-form {
+    display: flex;
+    padding: 1.5rem;
+    justify-content: space-between;
+}
+
+.explore-filters-field {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    border: 1px solid black;
+
+    flex: 1;
+    align-items: stretch;
+    padding: 1.5rem 0.5rem;
+}
+
+.hidden-label {
+    overflow: hidden;
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+.explore-filters-field input {
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.explore-filters-field:last-child {
+    padding: 0;
+    background-color: #31786E;
+}
+
+.explore-filters-field button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: none;
+    border-radius: 0 8px 8px 0;
+    color: #fff;
+    transition: background-color  0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+}
+
+.explore-filters-field button:hover {
+    background-color: #265C54;
+}
+
+.explore-filters-field button:active {
+    background-color: #64a79e;
+}
+
+.field-end {
+    border-radius: 0 8px 8px 0;
+}
+
+ .field-start { 
+    border-radius: 8px 0 0 8px;
+ }
+
+ .explore-rooms {
+
+    margin-bottom: 4rem;
+}
+
+ .explore-room-card {
+    display: flex;
+    width: 100%;
+    height: 250px;
+    box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+ }
+
+ .explore-room-card img {
+    width: 33%;
+    height: 100%;
+    flex-shrink: 0;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px 0 0 8px;
+ }
+
+ .explore-card-details {
+    width: 67%;
+    margin: auto 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4rem;
+ }
+
+ .explore-card-bio {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+ }
+
+ .explore-card-bio h2 {
+    margin: 0;
+}
+
+ .explore-card-bio p, .explore-card-price-info p {
+    margin: 0;
+}
+
+.explore-card-price {
+    align-items: center;
+    display: flex;
+}
+
+.explore-card-price-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.explore-card-price button {
+    margin-left: auto;
+    border: none;
+    background: #31786E;
+    height: 48px;
+    width: 48px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: large;
+    transition: background-color  0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+}
+
+.explore-card-price button:hover {
+    background-color: #265C54;
+}
+
+.explore-card-price button:active {
+    background-color: #4d9289;
+}
+
+.explore-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.explore-sidebar-section {
+    background-color: #F9F9F9;
+    box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 0 1rem 2rem 1rem;
+}
+
+
+.explore-popular-filters {
+    display: flex;
+    flex-direction: column;
+}
