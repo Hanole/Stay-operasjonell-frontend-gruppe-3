@@ -7,7 +7,7 @@ async function startExplore() {
 
 }
 
-function loadRooms (rooms: Room[]) {
+function loadRooms (rooms) {
     const container = document.querySelector('.explore-rooms');
     if (!container) return;
     

@@ -29,6 +29,26 @@
       ],
       "created": "2025-09-02T09:00:00",
       "updated": "2025-09-12T16:45:00"
+    },
+    {
+      "id": 2,
+      "name": "Trippelrom!!!!",
+      "pricePrNight": 1200,
+      "description": "Romslig dobbeltrom med utsikt mot havet",
+      "features": ["dobbeltseng", "eget bad", "frokost inkludert"],
+      "maxGuests": 2,
+      "reviews": [
+        {
+          "id": 1,
+          "userId": 1,
+          "rating": 5,
+          "comment": "Veldig hyggelig opphold og god frokost!",
+          "created": "2026-01-15T10:00:00",
+          "updated": "2026-01-15T10:00:00"
+        }
+      ],
+      "created": "2025-09-02T09:00:00",
+      "updated": "2025-09-12T16:45:00"
     }
   ],
   "bookings": [

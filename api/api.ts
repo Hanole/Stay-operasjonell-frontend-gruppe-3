@@ -25,11 +25,9 @@ export type ApiData = {
     bookings: unknown[];
 }
 
-export async function fetchData(): Promise<ApiData> {
+export async function fetchData() {
     const response = await fetch('api/stay-api.json');
-    if (!response.ok) {
-        throw new Error('Error, couldnt fetch')
-    }
-    const data: ApiData = await response.json();
+
+    const data = await response.json();
     return data; 
 }
