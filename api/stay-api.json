@@ -1,0 +1,47 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "userName": "Ola Nordmann",
+      "password": "abc123",
+      "email": "ola@example.com",
+      "created": "2025-09-01T10:30:00",
+      "updated": "2025-09-10T14:20:00"
+    }
+  ],
+  "rooms": [
+    {
+      "id": 1,
+      "name": "Dobbeltrom med sjøutsikt",
+      "pricePrNight": 1200,
+      "description": "Romslig dobbeltrom med utsikt mot havet",
+      "features": ["dobbeltseng", "eget bad", "frokost inkludert"],
+      "maxGuests": 2,
+      "reviews": [
+        {
+          "id": 1,
+          "userId": 1,
+          "rating": 5,
+          "comment": "Veldig hyggelig opphold og god frokost!",
+          "created": "2026-01-15T10:00:00",
+          "updated": "2026-01-15T10:00:00"
+        }
+      ],
+      "created": "2025-09-02T09:00:00",
+      "updated": "2025-09-12T16:45:00"
+    }
+  ],
+  "bookings": [
+    {
+      "id": 101,
+      "userId": 1,
+      "roomId": 1,
+      "fromDate": "2026-01-10",
+      "toDate": "2026-01-12",
+      "status": "pending",
+      "message": "Ønsker rolig rom med tidlig innsjekk",
+      "created": "2025-12-30T12:15:00",
+      "updated": "2025-12-30T12:15:00"
+    }
+  ]
+}
