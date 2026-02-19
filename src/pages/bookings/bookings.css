@@ -1,0 +1,32 @@
+:root {
+  --primnary: #31786e;
+  --secondary: #265c54;
+  --text: #1c1c1c;
+  --gray: #6c6c6c;
+  --bg: #f5f5f5;
+  --white: #ffffff;
+  --border: #e0e0e0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  font-family: Arial;
+  color: var(--text);
+}
+
+.new_booking,
+.yourBookings {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+.booking.card {
+  display: flex;
+  gap: 30px;
+}
