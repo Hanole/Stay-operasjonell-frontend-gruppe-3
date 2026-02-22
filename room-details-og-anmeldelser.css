@@ -1,0 +1,217 @@
+* {
+   margin: 0; 
+   padding: 0;
+}
+
+body {
+    background-color: #FFFFFF;
+    font-family: "Inter", sans-serif;
+}
+
+.utforsk {
+    font-size: 16px;
+    padding: 20px;
+    margin: 20px;
+    text-decoration: none;
+}
+
+h1 {
+    color: #1C1C1C;
+    font-size: 45px;
+    padding: 20px;
+    margin: 20px;
+}
+
+h2 {
+    color: #1C1C1C;
+    padding: 20px;
+    margin: 20px;
+}
+
+.pris {
+    font-size: 28px;
+    font-weight: normal;
+    margin-right: 10px;
+}
+
+.pris,
+.anmeldelser {
+    color: #265C54;
+}
+
+.gjester,
+.anmeldelser {
+    font-size: 16px;
+    font-weight: normal;
+    margin-right: 15px;
+}
+
+.rom-alle-bilder {
+    display: flex;
+    gap: 24px;
+    margin: 20px;
+    padding: 20px;
+}
+
+.rom-foto2 {
+    display: flex;
+    gap: 24px;
+}
+
+.rom-foto img {
+    width: 723px;
+    height: 297px;
+    border-radius: 10%;
+}
+
+.rom-foto2 img {
+    width: 381px;
+    height: 297px;
+    border-radius: 10%;
+}
+
+h3,h4 {
+    font-size: 28px;
+    font-weight: normal;
+    padding: 20px;
+    margin: 20px;
+}
+
+.fasiliteter {
+    padding: 20px;
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    list-style: none;
+    gap: 10px;
+}
+
+.fasiliteter li {
+    color: #265C54;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #B7C0D2;
+}
+
+p {
+    color: #6C6C6C;
+    max-width: 700px;
+    margin: 40px;
+}
+
+.knappbookings {
+    background-color: #31786E;
+    border: 1px solid #31786E;
+    color: #FFFFFF;
+    margin: 40px;
+    width: 198px;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.knappbookings:hover {
+    background-color: #265C54;
+}
+
+ h5{
+    font-size: 28px;
+    font-weight: normal;
+ }
+
+.vurdering-stjerne-side1 {
+    color: #265C54;
+    margin-top: 10px;
+}
+
+.anmeldelser-side1 {
+    padding: 40px;
+    margin: 40px;
+    flex: 1;
+    max-width: 600px;
+}
+
+.liste-anmeldelser {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 0;
+}
+
+.anmeldelse-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background-color: #fafbfb;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.anmeldelse-tekst1 {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+}
+
+.brukernavn {
+    color: #1C1C1C;
+    font-weight: normal;
+    font-size: 28px;
+    margin-bottom: 4px;
+}
+
+.knappside1 {
+    background-color: #FFFFFF;
+    color: #31786E;
+    border: 1px solid #31786E;
+    margin: 40px;
+    width: 198px;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.knappside1:hover {
+    background-color: #FFFFFF;
+    color: #265C54;
+}
+
+.anmeldelser-side1,
+.knappside1 {
+    margin-left: 0;
+}
+
+.rom-info{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+ .rom-anmeldelser {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    box-sizing: border-box;
+    width: 100%;
+    gap: 20px;
+ }
