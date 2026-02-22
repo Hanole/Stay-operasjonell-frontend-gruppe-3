@@ -1,23 +1,22 @@
-import { fetchData } from '../../../api/api';
-import './explore.css';
+import { fetchData } from "../../../api/api";
+import "./explore.css";
 
 async function startExplore() {
-    const { rooms } = await fetchData();
-    loadRooms(rooms);
-
+  const { rooms } = await fetchData();
+  loadRooms(rooms);
 }
 
-function loadRooms (rooms) {
-    const container = document.querySelector('.explore-rooms');
-    if (!container) return;
-    
-    container.innerHTML = '';
+function loadRooms(rooms) {
+  const container = document.querySelector(".explore-rooms");
+  if (!container) return;
 
-    rooms.forEach((room) => {
-        const card = document.createElement('div');
-        card.className = 'explore-room-card';
+  container.innerHTML = "";
 
-        card.innerHTML = `
+  rooms.forEach((room) => {
+    const card = document.createElement("div");
+    card.className = "explore-room-card";
+
+    card.innerHTML = `
             <div class="explore-room-card">
                     <img src="/assets/rooms/Rectangle 14.png">
                     <div class="explore-card-details">
@@ -25,7 +24,7 @@ function loadRooms (rooms) {
                             <h2>${room.name}</h2>
                             <p>${room.description}</p>
                             <div>
-                                ${room.features.map((f) => `<button>${f}</button>`).join('')}
+                                ${room.features.map((f) => `<button>${f}</button>`).join("")}
                             </div>
                         </div>
                         <div class="explore-card-price">
@@ -39,8 +38,8 @@ function loadRooms (rooms) {
                 </div>
         `;
 
-        container.appendChild(card);
-    });
+    container.appendChild(card);
+  });
 }
 
 startExplore();
