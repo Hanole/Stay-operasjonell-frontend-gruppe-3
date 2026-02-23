@@ -2,33 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>stay-operasjonell-frontend-gruppe-3</title>
-    <link rel="stylesheet" href="src/pages/index/global.css" />
+    <link rel="stylesheet" href="src/global.css" />
     <link rel="stylesheet" href="src/pages/index/index.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
+    <title>Profil</title>
   </head>
   <body>
     <header>
       <div class="logo">
-        <a href="index.html"
-          ><img src="assets/stay-logo.svg"
-        /></a>
+        <a href="index.html"><img src="assets/stay-logo.svg" /></a>
       </div>
 
-      <button class="hamburger" aria-label="hamburger menu">
-        <span class="bars"></span>
-        <span class="bars"></span>
-        <span class="bars"></span>
+      <button class="hamburger-button" type="button">
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
 
-      <nav aria-label="main navigation">
+      <nav class="navbar" id="mainNav" aria-label="main navigation">
         <ul>
           <li><a href="explore.html">Utforsk</a></li>
           <li><a href="bookings.html">Bestillinger</a></li>
@@ -39,7 +34,6 @@
 
     <main></main>
 
-    <div id="app"></div>
-    <script type="module" src="/src/index.ts"></script>
+    <script type="module" src="src/main.ts"></script>
   </body>
 </html>
