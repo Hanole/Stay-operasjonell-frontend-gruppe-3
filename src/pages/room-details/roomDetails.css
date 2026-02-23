@@ -146,7 +146,6 @@ p {
 .list-reviews {
     display: flex;
     flex-direction: column;
-    padding: 20px;
     gap: 16px;
     margin-top: 16px;
     padding: 0;
@@ -215,3 +214,103 @@ p {
     width: 100%;
     gap: 20px;
  }
+
+ h3 {
+    color: #1C1C1C;
+    padding: 20px;
+    margin: 20px;
+}
+
+.review-h3 {
+    font-size: 28px;
+    font-weight: normal;
+    margin-right: 10px;
+}
+
+.rating-h3 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-right: 15px;
+    color: #265C54;
+}
+
+.user-rating-review {
+    font-size: 16px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.list-reviews-page2 {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 40px;
+}
+
+button {
+    background-color: #31786E;
+    color: #FFFFFF;
+    border: #31786E;
+    margin: 40px;
+    width: 362px;
+    height: 56px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #265C54;
+}
+
+.review-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.review-box {
+    width: 720px;
+    height: 487px;
+    background: #F9F9F9;
+    border-radius: 10px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rate-your-stay-text {
+    font-size: 24px;
+    margin: 0;
+    text-align: center;
+}
+
+.review-stars {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+textarea {
+    width: 672px;
+    height: 220px;
+    padding: 12px;
+    font-size: 16px;
+    border: #6C6C6C;
+    box-sizing: border-box;
+    border-radius: 8px;
+}
