@@ -8,6 +8,27 @@
     <title>Bookings</title>
   </head>
   <body>
+    <header>
+      <div class="logo">
+        <a href="index.html"
+          ><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo"
+        /></a>
+      </div>
+
+      <button class="hamburger-button" type="button">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="navbar" id="mainNav" aria-label="main navigation">
+        <ul>
+          <li><a class="navbar-link" href="explore.html">Utforsk</a></li>
+          <li><a class="navbar-link" href="bookings.html">Bestillinger</a></li>
+          <li><a class="navbar-link" href="index.html">Profil</a></li>
+        </ul>
+      </nav>
+    </header>
     <section class="new-booking">
       <h2>New booking</h2>
 
@@ -118,5 +139,6 @@
         </form>
       </div>
     </div>
+    <script type="module" src="/src/pages/bookings/bookings.ts"></script>
   </body>
 </html>
