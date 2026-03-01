@@ -8,7 +8,7 @@ async function startExplore() {
 
     allRooms = rooms;
     console.log(allRooms);
-    
+
     loadRooms(allRooms);
     sidebarFilters(allRooms);
 
@@ -45,7 +45,6 @@ function loadRooms(rooms) {
                     </div>
                 </div>
         `;
-
     container.appendChild(card);
   });
 }
