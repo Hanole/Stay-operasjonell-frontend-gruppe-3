@@ -1,11 +1,14 @@
-import { fetchRooms } from '../../../api/api';
+import { fetchDb } from '../../../api/api';
 import './explore.css';
 
 let allRooms = [];
 
 async function startExplore() {
-    allRooms = await fetchRooms();
+    const { rooms } = await fetchDb();
+
+    allRooms = rooms;
     console.log(allRooms);
+    
     loadRooms(allRooms);
     sidebarFilters(allRooms);
 
