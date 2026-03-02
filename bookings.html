@@ -3,52 +3,84 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/global.css" />
     <link rel="stylesheet" href="/src/pages/bookings/bookings.css" />
     <title>Bookings</title>
   </head>
   <body>
+    <header>
+      <div class="logo">
+        <a href="index.html"
+          ><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo"
+        /></a>
+      </div>
+
+      <button class="hamburger-button" type="button">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="navbar" id="mainNav" aria-label="main navigation">
+        <ul>
+          <li><a class="navbar-link" href="explore.html">Utforsk</a></li>
+          <li><a class="navbar-link" href="bookings.html">Bestillinger</a></li>
+          <li><a class="navbar-link" href="index.html">Profil</a></li>
+        </ul>
+      </nav>
+    </header>
     <section class="new-booking">
-      <h2>New Booking</h2>
+      <h2>New booking</h2>
 
-      <form id="booking-form" class="booking-card">
-        <input type="hidden" id="booking-room-id" />
+      <div class="booking-card">
+        <div class="booking-form">
+          <form id="booking-form">
+            <input type="hidden" id="booking-room-id" />
 
-        <div class="date-row">
-          <label>
-            Check-in
-            <input type="date" id="check-in-date" />
-          </label>
+            <div class="date-row">
+              <label>
+                Check-in
+                <input type="date" id="check-in-date" />
+              </label>
 
-          <label>
-            Check-out
-            <input type="date" id="check-out-date" />
-          </label>
+              <label>
+                Check-out
+                <input type="date" id="check-out-date" />
+              </label>
+            </div>
+
+            <label>
+              Message
+              <textarea
+                id="message"
+                placeholder="Type your message here..."
+              ></textarea>
+            </label>
+
+            <button type="submit" id="sendBooking">Send →</button>
+          </form>
         </div>
-
-        <label>
-          Message
-          <textarea
-            id="message"
-            placeholder="Type your message here..."
-          ></textarea>
-        </label>
-
-        <button type="submit" id="sendBooking">Send →</button>
 
         <div class="room-preview">
-          <img id="room-image" src="#" alt="Room image" />
-          <div>
-            <h3 id="room-name">Room Name</h3>
-            <p id="room-info"></p>
-            <p id="room-price"></p>
+          <img
+            id="room-image"
+            src="/assets-rom-detaljer/Bilde-rom-1.jpg"
+            alt="Room image"
+          />
+          <div class="room-info">
+            <h3 id="room-name">Nydelig dobbelt rom</h3>
+            <p id="room-info-text">Sjøutsikt</p>
+            <p id="room-price">2500 pr natt</p>
           </div>
         </div>
-      </form>
+      </div>
     </section>
 
     <section class="your-bookings">
-      <h2>My Bookings</h2>
+      <h2>My bookings</h2>
+
       <div id="booking-container"></div>
+
       <div id="no-bookings" class="hidden">
         <p>You have no bookings yet.</p>
       </div>
@@ -57,10 +89,8 @@
     <div id="edit-modal" class="modal hidden">
       <div class="modal-content">
         <h2>Edit Booking</h2>
-
         <form id="edit-form">
           <input type="hidden" id="edit-booking-id" />
-
           <div class="date-row">
             <label>
               Check-in
@@ -75,7 +105,6 @@
             Message
             <textarea id="edit-message"></textarea>
           </label>
-
           <div class="button-row">
             <button type="submit">Save Changes</button>
             <button type="button" id="cancel-edit">Cancel</button>
@@ -84,16 +113,32 @@
       </div>
     </div>
 
-    <div id="delete-modal" class="modal hidden">
+    <div id="edit-modal" class="modal hidden">
       <div class="modal-content">
-        <h2>Delete Booking</h2>
-        <p>Are you sure?</p>
-
-        <div class="button-row">
-          <button id="confirm-delete">Yes, Delete</button>
-          <button id="cancel-delete">No, Cancel</button>
-        </div>
+        <h2>Edit Booking</h2>
+        <form id="edit-form">
+          <input type="hidden" id="edit-booking-id" />
+          <div class="date-row">
+            <label>
+              Check-in
+              <input type="date" id="edit-check-in-date" />
+            </label>
+            <label>
+              Check-out
+              <input type="date" id="edit-check-out-date" />
+            </label>
+          </div>
+          <label>
+            Message
+            <textarea id="edit-message"></textarea>
+          </label>
+          <div class="button-row">
+            <button type="submit">Save Changes</button>
+            <button type="button" id="cancel-edit">Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
+    <script type="module" src="/src/pages/bookings/bookings.ts"></script>
   </body>
 </html>
