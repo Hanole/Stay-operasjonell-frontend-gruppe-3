@@ -2,6 +2,10 @@
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
 }
+body {
+    margin: 0;
+    padding: 0;
+}
 
 .explore {
     background-color: #FFFFFF;
@@ -9,13 +13,38 @@
 }
 
 .explore-hero {
+    position: relative;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
-    border: 4px green solid;
-    margin-bottom: 2rem;
+    padding: 5rem;
+    margin: 2rem 10rem;
+    border-radius: 8px;
+    color: white;
+    user-select: none;
+
+    background-image: url('./../../../assets/hero-img.jpg');
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
+    
+}
+
+.explore-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.3)
+    );
+}
+
+.explore-hero > * {
+    position: relative;
 }
 
 .explore-filters {
@@ -184,7 +213,7 @@
 }
 
 
-.explore-popular-filters {
+.explore-sidebar-features {
     display: flex;
     flex-direction: column;
 }
