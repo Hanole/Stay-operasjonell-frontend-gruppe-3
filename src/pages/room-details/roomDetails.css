@@ -11,8 +11,10 @@ body {
 .explore {
     font-size: 16px;
     padding: 20px;
-    margin: 20px;
+    margin: 40px 20px 20px 20px;
     text-decoration: none;
+    display: inline-block;
+    color: #1C1C1C;
 }
 
 h1 {
@@ -51,6 +53,7 @@ h2 {
     gap: 24px;
     margin: 20px;
     padding: 20px;
+    flex-wrap: wrap;
 }
 
 .room-image {
@@ -64,10 +67,15 @@ h2 {
     border-radius: 10%;
 }
 
+.room-image-2 {
+    display: flex;
+    gap: 24px;
+}
 .room-image-2 img {
     width: 381px;
     height: 297px;
     border-radius: 10%;
+    gap: 24px;
 }
 
 h3,h4 {
@@ -158,6 +166,7 @@ h5{
     padding: 16px;
     background-color: #fafbfb;
     border-radius: 10px;
+    box-shadow:  0 2px 4px 1px rgba(0, 0, 0, 0.25);
     width: 100%;
 }
 
@@ -214,6 +223,19 @@ h5{
     width: 100%;
     gap: 20px;
  }
+
+@media screen and (max-width: 768px) {
+    .room-reviews {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .room-info,
+    .reviews-page1 {
+        width: 100%;
+        margin: 0;
+    }
+}
 
  h3 {
     color: #1C1C1C;
