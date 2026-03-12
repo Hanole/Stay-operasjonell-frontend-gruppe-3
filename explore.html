@@ -4,16 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/src/pages/explore/explore.css" rel="stylesheet" />
+    <link href="/src/global.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <title>Explore</title>
 </head>
 <body>
+     <header>
+      <div class="logo">
+        <a href="index.html"
+          ><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo"
+        /></a>
+      </div>
+
+      <button class="hamburger-button" type="button">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="navbar" id="mainNav" aria-label="main navigation">
+        <ul>
+          <li><a class="navbar-link" href="explore.html">Utforsk</a></li>
+          <li><a class="navbar-link" href="bookings.html">Bestillinger</a></li>
+          <li><a class="navbar-link" href="index.html">Profil</a></li>
+        </ul>
+      </nav>
+    </header>
     <main class="explore">
         <section class="explore-hero">
-            <h1>Explore rooms</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit tortor eu egestas morbi sem vulputate etiam facilisis.</p>
+            <h1>Utforsk våre bed & breakfast-rom</h1>
+            <p>Se våre tilgjengelige rom, og bruk filtrene i sidebaren for å finne et rom som matcher dine behov.</p>
         </section>
         <section class="explore-filters">
             <form class="explore-filters-form">
@@ -50,25 +72,10 @@
             <aside class="explore-sidebar">
                 <section class="explore-sidebar-section">
                     <h2>Filter by</h2>
-                    <section class="explore-popular-filters">
-                        <h3>Popular filters</h3>
-                        <div>
-                            <label></label>
-                            <input type="checkbox">Egenskap</input>
-                        </div>
-                        <div>
-                            <input type="checkbox">Egenskap</input>
-                        </div>
-                        <div>
-                            <input type="checkbox">Egenskap</input>
-                        </div>
-                        <div>
-                            <input type="checkbox">Egenskap</input>
-                        </div>
-                        <div>
-                            <input type="checkbox">Egenskap</input>
-                        </div>
+                    <section class="explore-sidebar-features">
+                        
                     </section>
+                    <button class="explore-sidebar-reset">Nullstill filter</button>
                 </section>
                 <section class="explore-sidebar-section">
                     <h2>Saved Searches</h2>
@@ -77,5 +84,6 @@
         </section>
     </main>
     <script type="module" src="/src/pages/explore/explore.ts"></script>
+    <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

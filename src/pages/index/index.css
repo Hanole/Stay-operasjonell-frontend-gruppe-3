@@ -1,4 +1,12 @@
 body {
-    font-family: inter;
-    color: #424242;
+  font-family: inter;
+  color: #424242;
+}
+
+.hidden {
+  display: none;
+}
+
+.house-img {
+  width: 50%;
 }

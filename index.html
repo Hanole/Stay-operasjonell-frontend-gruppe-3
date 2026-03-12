@@ -34,7 +34,59 @@
       </nav>
     </header>
 
-    <main></main>
+    <main>
+      <section class="login-section">
+        <img
+          class="house-img"
+          alt="bilde av en hytte ute på landet"
+          src="assets/countryhouseimg.jpg"
+        />
+        <div id="login">
+          <h1>Velkommen tilbake</h1>
+          <p>Skriv inn påloggingsinformasjonen din for å fortsette</p>
+          <form class="login">
+            <label for="email-input">E-post addresse</label>
+            <input type="text" name="email" />
+            <label for="password-input">Passord</label>
+            <input type="password" name="Password" />
+            <button type="submit">Logg inn</button>
+            <p>Har du ikke en konto? Registrer deg her</p>
+          </form>
+        </div>
+      </section>
+
+      <div id="signup" class="hidden">
+        <h1>Opprett konto</h1>
+        <p>Fyll inn informasjonen din for å opprette konto</p>
+        <form class="signup">
+          <label for="username-input">Username</label>
+          <input type="text" name="username" />
+          <label for="email-input">E-post addresse</label>
+          <input type="text" name="email" />
+          <label for="password-input">Passord</label>
+          <input type="password" name="Password" />
+          <button type="submit">Opprett konto</button>
+          <p>Har du en allerede en konto? Logg inn her</p>
+        </form>
+      </div>
+
+      <div id="profil" class="hidden">
+        <h1>Welcome, (name)</h1>
+        <p>Created:</p>
+        <p>Updated:</p>
+        <form class="profile">
+          <label for="username-input">Username</label>
+          <input type="text" name="username" />
+          <label for="email-input">E-post addresse</label>
+          <input type="text" name="email" />
+          <label for="password-input">Passord</label>
+          <input type="password" name="Password" />
+          <button type="submit">Lagre</button>
+          <button type="button">Logg ut</button>
+          <button type="button">Slett konto</button>
+        </form>
+      </div>
+    </main>
 
     <script type="module" src="src/main.ts"></script>
   </body>
