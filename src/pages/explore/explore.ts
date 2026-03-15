@@ -3,6 +3,10 @@ import './explore.css';
 
 let allRooms = [];
 
+const form = document.querySelector(".explore-filters-form") as HTMLFormElement;
+
+
+
 async function startExplore() {
     const { rooms } = await fetchDb();
 
@@ -12,6 +16,8 @@ async function startExplore() {
     loadRooms(allRooms);
     sidebarFilters(allRooms);
 
+    form.addEventListener("submit", handleSubmit);
+
 }
 
 function loadRooms(rooms) {
@@ -20,11 +26,11 @@ function loadRooms(rooms) {
     
     container.innerHTML = '';
 
-  rooms.forEach((room) => {
-    const card = document.createElement("div");
-    card.className = "explore-room-card";
+    rooms.forEach((room) => {
+        const card = document.createElement("div");
+        card.className = "explore-room-card";
 
-    card.innerHTML = `
+        card.innerHTML = `
             <div class="explore-room-card">
                     <img src="/assets/rooms/Rectangle 14.png">
                     <div class="explore-card-details">
@@ -44,9 +50,9 @@ function loadRooms(rooms) {
                         </div>
                     </div>
                 </div>
-        `;
-    container.appendChild(card);
-  });
+            `;
+        container.appendChild(card);
+    });
 }
 
 function sidebarFilters(rooms) {
@@ -93,6 +99,42 @@ function sidebarFilters(rooms) {
             loadRooms(allRooms);
         })
     }
+}
+
+function handleSubmit(e: Event) {
+    e.preventDefault();
+
+    const { where, guests } = getFormValues();
+    const filteredRooms = filterRooms(allRooms, where, guests);
+
+    loadRooms(filteredRooms);
+
+}
+
+function getFormValues() {
+    const where = (document.getElementById("filter-where") as HTMLInputElement).value.trim();
+    const fromDate = (document.getElementById("filter-from") as HTMLInputElement).value.trim();
+    const toDate = (document.getElementById("filter-to") as HTMLInputElement).value.trim();
+    const guestsString = (document.getElementById("filter-guests") as HTMLInputElement).value.trim();
+
+    const guests = guestsString ? parseInt(guestsString, 10) : null;
+
+    return { where, fromDate, toDate, guests };
+}
+
+function filterRooms(rooms, where, guests) {
+    return rooms.filter((room) => {
+        if (where) {
+            const searchable = `${room.name} ${room.description}`.toLowerCase();
+            if (!searchable.includes(where.toLowerCase())) {
+                return false;
+            }
+        }
+        if (guests !== null && room.maxGuests < guests) {
+            return false;
+        }
+        return true;
+    })
 }
 
 startExplore();
