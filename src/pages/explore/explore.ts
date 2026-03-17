@@ -122,7 +122,7 @@ function getFormValues() {
     return { where, fromDate, toDate, guests };
 }
 
-function filterRooms(rooms, where, guests) {
+function filterRooms(rooms: Room, where, guests) {
     return rooms.filter((room) => {
         if (where) {
             const searchable = `${room.name} ${room.description}`.toLowerCase();
