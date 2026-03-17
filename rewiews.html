@@ -5,9 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anmeldelser</title>
     <link rel="stylesheet" href="src/pages/room-details/roomDetails.css">
+    <link href="/src/global.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
 </head>
 <body>
+    <header>
+      <div class="logo">
+        <a href="index.html"
+          ><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo"
+        /></a>
+      </div>
+
+      <button class="hamburger-button" type="button">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="navbar" id="mainNav" aria-label="main navigation">
+        <ul>
+          <li><a class="navbar-link" href="explore.html">Utforsk</a></li>
+          <li><a class="navbar-link" href="bookings.html">Bestillinger</a></li>
+          <li><a class="navbar-link" href="index.html">Profil</a></li>
+        </ul>
+      </nav>
+    </header>
+
     <a href="room-details.html" class="explore">← Romdetaljer</a>
     <h1>Nydelig dobbelt rom</h1>
     <h2>1250kr per natt</h2>
@@ -15,7 +38,7 @@
         <span class="review-h3">Anmeldelser</span>
         <span class="rating-h3">★★★★☆ 4,0 - 107 anmeldelser</span>
     </h3>
-            <div class="list-reviews-page2">
+            <div class="list-reviews-page2" id="reviews-container">
 
                 <div class="review-card">
                     <img src="assets-rom-detaljer/defaultavtarprofilepicture..png" alt="bruker1" class="profile-pic">
