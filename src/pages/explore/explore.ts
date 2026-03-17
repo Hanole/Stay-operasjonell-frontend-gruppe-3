@@ -1,7 +1,7 @@
-import { fetchDb } from '../../../api/api';
+import { fetchDb, type Room  } from '../../../api/api';
 import './explore.css';
 
-let allRooms = [];
+let allRooms: Room[] = [];
 
 const form = document.querySelector(".explore-filters-form") as HTMLFormElement;
 
