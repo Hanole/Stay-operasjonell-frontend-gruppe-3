@@ -27,6 +27,7 @@ const cancelEditButton = document.getElementById("cancel-edit");
 const deleteModal = document.getElementById("delete-modal");
 const confirmDeleteButton = document.getElementById("confirm-delete");
 const cancelDeleteButton = document.getElementById("cancel-delete");
+const totalPrice = document.getElementById("total-price");
 
 bookingForm?.addEventListener("submit", function (event) {
   event?.preventDefault();
@@ -66,3 +67,33 @@ function createBookingCard(checkIn: string, checkOut: string, msg: string) {
   `;
   return card;
 }
+function nightBooked(checkIn: string, checkOut: string) {
+  const startDate = new Date(checkIn);
+  const endDate = new Date(checkOut);
+
+  const diffTime = endDate.getTime() - startDate.getTime();
+  const diffDays = diffTime / (1000 * 60 * 60 * 24);
+  return diffDays;
+}
+
+function totalPriceUpdate() {
+  const checkIn = checkInDate.value;
+  const checkOut = checkOutDate.value;
+
+  if (!checkIn || !checkOut) {
+    return;
+  }
+  const nights = nightBooked(checkIn, checkOut);
+  if (nights <= 0) {
+    totalPrice!.textContent = "Ugyldige datoer";
+    return;
+  }
+
+  const pricePerNight = 500;
+
+  const total = nights * pricePerNight;
+
+  totalPrice!.textContent = `${nights} netter x ${pricePerNight} Kr = Total: ${total} Kr`;
+}
+checkInDate.addEventListener("change", totalPriceUpdate);
+checkOutDate.addEventListener("change", totalPriceUpdate);
