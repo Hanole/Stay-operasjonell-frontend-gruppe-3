@@ -11,8 +11,10 @@ body {
 .explore {
     font-size: 16px;
     padding: 20px;
-    margin: 20px;
+    margin: 40px 20px 20px 20px;
     text-decoration: none;
+    display: inline-block;
+    color: #1C1C1C;
 }
 
 h1 {
@@ -51,6 +53,7 @@ h2 {
     gap: 24px;
     margin: 20px;
     padding: 20px;
+    flex-wrap: wrap;
 }
 
 .room-image {
@@ -64,10 +67,15 @@ h2 {
     border-radius: 10%;
 }
 
+.room-image-2 {
+    display: flex;
+    gap: 24px;
+}
 .room-image-2 img {
     width: 381px;
     height: 297px;
     border-radius: 10%;
+    gap: 24px;
 }
 
 h3,h4 {
@@ -126,7 +134,7 @@ p {
     background-color: #265C54;
 }
 
- h5{
+h5{
     font-size: 28px;
     font-weight: normal;
  }
@@ -158,6 +166,7 @@ p {
     padding: 16px;
     background-color: #fafbfb;
     border-radius: 10px;
+    box-shadow:  0 2px 4px 1px rgba(0, 0, 0, 0.25);
     width: 100%;
 }
 
@@ -215,6 +224,19 @@ p {
     gap: 20px;
  }
 
+@media screen and (max-width: 768px) {
+    .room-reviews {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .room-info,
+    .reviews-page1 {
+        width: 100%;
+        margin: 0;
+    }
+}
+
  h3 {
     color: #1C1C1C;
     padding: 20px;
@@ -252,7 +274,7 @@ button {
     background-color: #31786E;
     color: #FFFFFF;
     border: #31786E;
-    margin: 40px;
+    margin: 40px auto;
     width: 362px;
     height: 56px;
     align-items: center;
@@ -268,21 +290,25 @@ button:hover {
     background-color: #265C54;
 }
 
-.review-container {
+#review-modal {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     z-index: 1000;
-    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
     justify-content: center;
     align-items: center;
 }
 
-.review-box {
+#review-box {
     width: 720px;
     height: 487px;
-    background: #F9F9F9;
+    background: #F3F5F6;
     border-radius: 10px;
     padding: 24px;
     display: flex;
@@ -300,6 +326,7 @@ button:hover {
 .review-stars {
     display: flex;
     justify-content: center;
+    margin-bottom: 24px;
     gap: 8px;
     font-size: 32px;
     cursor: pointer;
@@ -308,9 +335,19 @@ button:hover {
 textarea {
     width: 672px;
     height: 220px;
+    font-family: "Inter", sans-serif;
+    margin: 0 auto;
     padding: 12px;
     font-size: 16px;
-    border: #6C6C6C;
+    border: 0.5px solid #B7C0D2;
     box-sizing: border-box;
     border-radius: 8px;
+    outline: 0.5px solid #B7C0D2;
+    outline-offset: 0;
+    display: block;
+}
+
+textarea:focus {
+    border-color: #B7C0D2;
+    outline-color: #B7C0D2;
 }
