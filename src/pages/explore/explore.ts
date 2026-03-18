@@ -20,7 +20,7 @@ async function startExplore() {
 
 }
 
-function loadRooms(rooms) {
+function loadRooms(rooms: Room[]) {
     const container = document.querySelector('.explore-rooms');
     if (!container) return;
     
@@ -55,7 +55,7 @@ function loadRooms(rooms) {
     });
 }
 
-function sidebarFilters(rooms) {
+function sidebarFilters(rooms: Room[]) {
     const allFeatures = rooms.flatMap((room) => room.features);
     const sidebarFeatures = [...new Set(allFeatures)];
 
@@ -122,7 +122,7 @@ function getFormValues() {
     return { where, fromDate, toDate, guests };
 }
 
-function filterRooms(rooms: Room, where, guests) {
+function filterRooms(rooms: Room[], where, guests) {
     return rooms.filter((room) => {
         if (where) {
             const searchable = `${room.name} ${room.description}`.toLowerCase();
