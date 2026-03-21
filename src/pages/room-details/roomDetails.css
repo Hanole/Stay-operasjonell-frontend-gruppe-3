@@ -305,6 +305,10 @@ button:hover {
     align-items: center;
 }
 
+#review-modal.active {
+    display: flex;
+}
+
 #review-box {
     width: 720px;
     height: 487px;
