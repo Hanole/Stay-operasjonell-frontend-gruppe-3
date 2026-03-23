@@ -1,6 +1,19 @@
 const modal = document.getElementById ('review-modal') as HTMLElement;
 const writeBtn = document.getElementById('write-a-review-btn') as HTMLElement;
 
-writeBtn.addEventListener('click', () => {modal.classList.add ('active')});
+writeBtn.addEventListener('click', () => {
+    modal.classList.add ('active')});
 
-modal.addEventListener('click', (e) => {if (e.target === modal){ modal.classList.remove ('active');}});
+modal.addEventListener('click', (e) => {if (e.target === modal)
+    { modal.classList.remove ('active'); }});
+
+const stars = document.querySelectorAll<HTMLSpanElement>('.review-stars span');
+
+let selectedrating = 0;
+
+stars.forEach((star) => {
+    star.addEventListener('click', () => {
+        selectedrating = Number (star.dataset.value);
+        updateStars(selectedrating);
+    });
+});

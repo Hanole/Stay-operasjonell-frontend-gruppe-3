@@ -333,7 +333,15 @@ button:hover {
     margin-bottom: 24px;
     gap: 8px;
     font-size: 32px;
+}
+
+.review-stars span {
     cursor: pointer;
+    color: gray;
+}
+
+.review-stars span.active {
+    color: gold;
 }
 
 textarea {
