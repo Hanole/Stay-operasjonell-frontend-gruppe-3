@@ -3,8 +3,16 @@ import './explore.css';
 
 let allRooms: Room[] = [];
 
-const form = document.querySelector(".explore-filters-form") as HTMLFormElement;
+const form = document.querySelector<HTMLFormElement>(".explore-filters-form");
+const toggleBtn = document.querySelector<HTMLButtonElement>(".explore-sidebar-toggle");
+const sidebar = document.querySelector<HTMLBaseElement>("aside.explore-sidebar");
 
+if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener("click", () => {
+        const isOpen = sidebar.classList.toggle("is-open");
+        toggleBtn.setAttribute("aria-expanded", String(isOpen));
+    });
+}
 
 
 async function startExplore() {
@@ -136,5 +144,6 @@ function filterRooms(rooms: Room[], where, guests) {
         return true;
     })
 }
+
 
 startExplore();
