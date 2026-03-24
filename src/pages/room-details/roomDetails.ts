@@ -8,7 +8,8 @@ writeBtn.addEventListener('click', () => {
 modal.addEventListener('click', (e) => {
     console.log('modal closed', e.target);
     if (e.target === modal)
-    { modal.classList.remove ('active'); }});
+    { modal.classList.remove ('active'); }
+});
 
 const stars = document.querySelectorAll<HTMLSpanElement>('.review-stars span');
 
