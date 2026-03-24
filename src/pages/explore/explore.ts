@@ -3,7 +3,7 @@ import './explore.css';
 
 let allRooms: Room[] = [];
 
-const form = document.querySelector<HTMLFormElement>(".explore-filters-form");
+const form = document.querySelector(".explore-filters-form") as HTMLFormElement || null;
 const toggleBtn = document.querySelector<HTMLButtonElement>(".explore-sidebar-toggle");
 const sidebar = document.querySelector<HTMLBaseElement>("aside.explore-sidebar");
 
@@ -54,11 +54,24 @@ function loadRooms(rooms: Room[]) {
                                 <p>${room.pricePrNight} kr</p>
                                 <p>Maks ${room.maxGuests} gjester</p>
                             </div>
-                            <button>-></button>
+                            <button class="explore-room-open">-></button>
                         </div>
                     </div>
                 </div>
             `;
+
+
+            // Denne sørger for at knappene lagrer rommet i localStorage, og sender brukeren til room-details.html
+            const openRoomButton = card.querySelector<HTMLButtonElement>
+            (".explore-room-open");
+            if (openRoomButton) {
+                openRoomButton.addEventListener("click", () => {
+                    console.log(room);
+                    localStorage.setItem("selectedRoom", JSON.stringify(room));
+                    window.location.href = "room-details.html"
+                    
+                })
+            }
         container.appendChild(card);
     });
 }
