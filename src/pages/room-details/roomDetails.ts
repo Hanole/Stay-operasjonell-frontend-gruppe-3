@@ -1,3 +1,5 @@
+/* Nathalia Ferreira Ramos */
+
 const modal = document.getElementById ('review-modal') as HTMLElement;
 const writeBtn = document.getElementById('write-a-review-btn') as HTMLButtonElement;
 
