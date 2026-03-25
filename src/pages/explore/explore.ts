@@ -1,3 +1,5 @@
+/* Ole-Magnus Stallvik Hanole */
+
 import { fetchDb, type Room  } from '../../../api/api';
 import './explore.css';
 
