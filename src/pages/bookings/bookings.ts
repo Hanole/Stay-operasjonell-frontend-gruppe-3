@@ -1,11 +1,16 @@
-const bookingForm = document.getElementById("booking-form");
-const bookingRoomId = document.getElementById("booking-room-id");
-const checkInDate = document.getElementById(
-  "check-in-date",
-) as HTMLInputElement;
-const checkOutDate = document.getElementById(
-  "check-out-date",
-) as HTMLInputElement;
+// Daniel Barø 
+
+const API_URL = "http://localhost:3000/bookings";
+const room = await response.json();
+
+console.log("API-KOBLING VELLYKKET!", room);
+console.log("Navn på rom fra API:", room.name);
+console.log("Pris fra API:", room.pricePrNight);
+
+const bookingForm = document.getElementById("booking-form") as HTMLFormElement; 
+const bookingRoomId = document.getElementById("booking-room-id") as HTMLFormElement ;
+const checkInDate = document.getElementById("check-in-date") as HTMLInputElement;
+const checkOutDate = document.getElementById("check-out-date") as HTMLInputElement;
 const message = document.getElementById("message") as HTMLTextAreaElement;
 
 const roomImage = document.getElementById("room-image");
@@ -14,19 +19,16 @@ const roomInfoText = document.getElementById("room-info-text");
 const roomPrice = document.getElementById("room-price");
 
 const bookingContainer = document.getElementById("booking-container");
-const noBookingsMessage = document.getElementById("no-bookings");
+
+let currentEditingCard: HTMLElement | null = null;
 
 const editModal = document.getElementById("edit-modal");
 const editForm = document.getElementById("edit-form");
-const editBookingId = document.getElementById("edit-booking-id");
 const editCheckInDate = document.getElementById("edit-check-in-date");
 const editCheckOutDate = document.getElementById("edit-check-out-date");
 const editMessage = document.getElementById("edit-message");
 const cancelEditButton = document.getElementById("cancel-edit");
 
-const deleteModal = document.getElementById("delete-modal");
-const confirmDeleteButton = document.getElementById("confirm-delete");
-const cancelDeleteButton = document.getElementById("cancel-delete");
 const totalPrice = document.getElementById("total-price");
 
 bookingForm?.addEventListener("submit", function (event) {
@@ -49,12 +51,15 @@ bookingForm?.addEventListener("submit", function (event) {
 function createBookingCard(checkIn: string, checkOut: string, msg: string) {
   const card = document.createElement("div");
   card.className = "booking-item";
+  card.dataset.checkin = checkIn;
+  card.dataset.checkout = checkOut;
+  card.dataset.message = msg;
 
   card.innerHTML = `
     <img src="" alt="Room image" />
     <div class="booking-info">
       <div class="booking-header">
-        <h3>[Room Name]</h3>
+     <h3>[Room Name]</h3>
         <span class="status pending">Pending</span>
       </div>
       <p class="booking-dates">${checkIn} - ${checkOut}</p>
@@ -65,8 +70,49 @@ function createBookingCard(checkIn: string, checkOut: string, msg: string) {
       </div>
     </div>
   `;
+
+  const editBtn = card.querySelector(".btn-edit") as HTMLButtonElement;
+
+  editBtn?.addEventListener("click", () => {
+    openEditModal(card, checkIn, checkOut, msg);
+  });
+
+  card.querySelector(".btn-cancel")?.addEventListener("click", () => {
+    if (confirm("Er du sikker på du vil avbestille denne bookingen?")) {
+      card.remove(); // til senere en funksjon som sletter deletebookings(id)
+    }
+  });
   return card;
 }
+
+function openEditModal(card: HTMLElement, checkIn: string, checkOut: string, msg: string) {
+  currentEditingCard = card;
+
+  (document.getElementById("edit-check-in-date") as HTMLInputElement).value = checkIn;
+  (document.getElementById("edit-check-out-date") as HTMLInputElement).value = checkOut;
+  (document.getElementById("edit-message") as HTMLTextAreaElement).value = msg;
+
+  editModal?.classList.remove("hidden");
+}
+cancelEditButton?.addEventListener("click", () => {
+  editModal?.classList.add("hidden");
+});
+
+editForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const newCheckIn = (document.getElementById("edit-check-in-date") as HTMLInputElement).value;
+  const newCheckOut = (document.getElementById("edit-check-out-date") as HTMLInputElement).value;
+  const newMsg = (document.getElementById("edit-message") as HTMLTextAreaElement).value;
+
+  if (currentEditingCard) {
+    currentEditingCard.querySelector(".booking-dates")!.textContent = `${newCheckIn} - ${newCheckOut}`;
+    currentEditingCard.querySelector(".booking-message")!.textContent = newMsg;
+  }
+
+  editModal?.classList.remove("hidden");
+});
+
 function nightBooked(checkIn: string, checkOut: string) {
   const startDate = new Date(checkIn);
   const endDate = new Date(checkOut);
@@ -89,7 +135,7 @@ function totalPriceUpdate() {
     return;
   }
 
-  const pricePerNight = 500;
+  const pricePerNight = 500; // hard kodet for nå// 
 
   const total = nights * pricePerNight;
 
@@ -97,3 +143,16 @@ function totalPriceUpdate() {
 }
 checkInDate.addEventListener("change", totalPriceUpdate);
 checkOutDate.addEventListener("change", totalPriceUpdate);
+
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const response = await fetch(API_URL);
+    const bookings = await response.json();
+
+    bookings.forEach((b: any) => {
+      const card = createBookingCard(b.fromDate, b.toDate, b.message, b.id);
+      bookingContainer?.appendChild(card);
+    });
+
+  }
+});

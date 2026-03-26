@@ -1,3 +1,5 @@
+<!-- Daniel Barø -->
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,9 +12,7 @@
   <body>
     <header>
       <div class="logo">
-        <a href="index.html"
-          ><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo"
-        /></a>
+        <a href="index.html"><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo" /></a>
       </div>
 
       <button class="hamburger-button" type="button">
@@ -26,6 +26,7 @@
           <li><a class="navbar-link" href="explore.html">Utforsk</a></li>
           <li><a class="navbar-link" href="bookings.html">Bestillinger</a></li>
           <li><a class="navbar-link" href="index.html">Profil</a></li>
+          <li><a class="navbar-link" href="room-details.html">Romdetaljer</a></li>
         </ul>
       </nav>
     </header>
@@ -51,10 +52,7 @@
 
             <label>
               Message
-              <textarea
-                id="message"
-                placeholder="Type your message here..."
-              ></textarea>
+              <textarea id="message" placeholder="Type your message here..."></textarea>
             </label>
 
             <button type="submit" id="sendBooking">Send →</button>
@@ -62,11 +60,7 @@
         </div>
 
         <div class="room-preview">
-          <img
-            id="room-image"
-            src="/assets-rom-detaljer/Bilde-rom-1.jpg"
-            alt="Room image"
-          />
+          <img id="room-image" src="/assets-rom-detaljer/Bilde-rom-1.jpg" alt="Room image" />
           <div class="room-info">
             <h3 id="room-name">Nydelig dobbelt rom</h3>
             <p id="room-info-text">Sjøutsikt</p>
@@ -86,33 +80,6 @@
         <p>You have no bookings yet.</p>
       </div>
     </section>
-
-    <div id="edit-modal" class="modal hidden">
-      <div class="modal-content">
-        <h2>Edit Booking</h2>
-        <form id="edit-form">
-          <input type="hidden" id="edit-booking-id" />
-          <div class="date-row">
-            <label>
-              Check-in
-              <input type="date" id="edit-check-in-date" />
-            </label>
-            <label>
-              Check-out
-              <input type="date" id="edit-check-out-date" />
-            </label>
-          </div>
-          <label>
-            Message
-            <textarea id="edit-message"></textarea>
-          </label>
-          <div class="button-row">
-            <button type="submit">Save Changes</button>
-            <button type="button" id="cancel-edit">Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
 
     <div id="edit-modal" class="modal hidden">
       <div class="modal-content">
