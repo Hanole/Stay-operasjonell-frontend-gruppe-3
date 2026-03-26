@@ -1,10 +1,20 @@
+/* Ole-Magnus Stallvik Hanole */
+
 import { fetchDb, type Room  } from '../../../api/api';
 import './explore.css';
 
 let allRooms: Room[] = [];
 
-const form = document.querySelector(".explore-filters-form") as HTMLFormElement;
+const form = document.querySelector(".explore-filters-form") as HTMLFormElement || null;
+const toggleBtn = document.querySelector<HTMLButtonElement>(".explore-sidebar-toggle");
+const sidebar = document.querySelector<HTMLBaseElement>("aside.explore-sidebar");
 
+if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener("click", () => {
+        const isOpen = sidebar.classList.toggle("is-open");
+        toggleBtn.setAttribute("aria-expanded", String(isOpen));
+    });
+}
 
 
 async function startExplore() {
@@ -46,11 +56,24 @@ function loadRooms(rooms: Room[]) {
                                 <p>${room.pricePrNight} kr</p>
                                 <p>Maks ${room.maxGuests} gjester</p>
                             </div>
-                            <button>-></button>
+                            <button class="explore-room-open">-></button>
                         </div>
                     </div>
                 </div>
             `;
+
+
+            // Denne sørger for at knappene lagrer rommet i localStorage, og sender brukeren til room-details.html
+            const openRoomButton = card.querySelector<HTMLButtonElement>
+            (".explore-room-open");
+            if (openRoomButton) {
+                openRoomButton.addEventListener("click", () => {
+                    console.log(room);
+                    localStorage.setItem("selectedRoom", JSON.stringify(room));
+                    window.location.href = "room-details.html"
+                    
+                })
+            }
         container.appendChild(card);
     });
 }
@@ -136,5 +159,6 @@ function filterRooms(rooms: Room[], where, guests) {
         return true;
     })
 }
+
 
 startExplore();

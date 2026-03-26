@@ -1,3 +1,5 @@
+/* Ole-Magnus Stallvik Hanole */
+
 * {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
@@ -216,4 +218,58 @@ body {
 .explore-sidebar-features {
     display: flex;
     flex-direction: column;
+}
+
+.explore-sidebar-toggle {
+    display: none;
+}
+
+
+@media (max-width: 1024px) {
+    .explore {
+        margin: 0 2rem;
+    }
+
+    .explore-content {
+        grid-template-columns: 1fr;
+    }
+
+    .explore-toggle-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* position: relative; */
+    }
+
+    .explore-sidebar-toggle {
+        display: inline-flex;
+        margin-bottom: 1rem;
+        padding: 1.2rem 4rem;
+        border: none;
+        border-radius: 8px;
+        background: #31786E;
+        color: white;
+        transition: background-color  0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+    }
+
+    .explore-sidebar-toggle:hover {
+        background-color: #265C54;
+    }
+
+    .explore-sidebar-toggle:active {
+        background-color: #4d9289;
+    }
+
+    .explore-sidebar {
+        display: none;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(90vw, 420px);
+        
+    }
+
+    .explore-sidebar.is-open {
+        display: flex;
+    }
 }
