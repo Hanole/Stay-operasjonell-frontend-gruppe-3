@@ -25,6 +25,7 @@ async function startExplore() {
 
     loadRooms(allRooms);
     sidebarFilters(allRooms);
+    featureButtonClicks();
 
     form.addEventListener("submit", handleSubmit);
 
@@ -47,8 +48,8 @@ function loadRooms(rooms: Room[]) {
                         <div class="explore-card-bio">
                             <h2>${room.name}</h2>
                             <p>${room.description}</p>
-                            <div>
-                                ${room.features.map((f) => `<button>${f}</button>`).join("")}
+                            <div class="explore-card-features">
+                                ${room.features.map((f) => `<button type="button" class="explore-feature-button" data-feature="${f}">${f}</button>`).join("")}
                             </div>
                         </div>
                         <div class="explore-card-price">
@@ -78,6 +79,26 @@ function loadRooms(rooms: Room[]) {
     });
 }
 
+function applyFeatureFilters(checkedFeature: string[]) {
+    const filtered = 
+        checkedFeature.length === 0
+            ? allRooms
+            : allRooms.filter((room) => 
+                checkedFeature.every((f) => room.features.includes(f))
+            );
+        
+        loadRooms(filtered);
+
+        const buttons = document.querySelectorAll<HTMLButtonElement>(".explore-feature-button");
+
+        buttons.forEach((button) => {
+            const feature = button.dataset.feature;
+            if (!feature) return;
+
+            button.classList.toggle("is-active", checkedFeature.includes(feature));
+        })
+}
+
 function sidebarFilters(rooms: Room[]) {
     const allFeatures = rooms.flatMap((room) => room.features);
     const sidebarFeatures = [...new Set(allFeatures)];
@@ -98,30 +119,49 @@ function sidebarFilters(rooms: Room[]) {
 
     sidebar.addEventListener('change', () => {
         const checkedFeature = Array.from(
-            sidebar.querySelectorAll('input[type="checkbox"]:checked')
+            sidebar.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
         ).map((input) => input.value);
 
-        const filtered = 
-        checkedFeature.length === 0
-        ? allRooms
-        : allRooms.filter((room) => 
-            checkedFeature.every((f) => room.features.includes(f))
-        );
-
-        loadRooms(filtered);
+        applyFeatureFilters(checkedFeature);
     });
 
     const resetButton = document.querySelector('.explore-sidebar-reset');
     if (resetButton) {
         resetButton.addEventListener('click', () => {
             sidebar
-                .querySelectorAll('input[type="checkbox"]:checked')
+                .querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
                 .forEach((input) => {
                     input.checked = false;
                 });
             loadRooms(allRooms);
         })
     }
+}
+
+function featureButtonClicks() {
+    const container = document.querySelector(".explore-rooms");
+    const sidebar = document.querySelector(".explore-sidebar-features");
+
+    if (!container || !sidebar) return;
+
+    container.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+
+        const button = target.closest(".explore-feature-button") as HTMLButtonElement | null;
+        if (!button) return;
+
+        const feature = button.dataset.feature;
+        if (!feature) return;
+
+        const checkbox = sidebar.querySelector<HTMLInputElement>(`input[type="checkbox"][value="${feature}"]`);
+        if (!checkbox) return;
+
+        checkbox.checked = !checkbox.checked;
+
+        const checkedFeature = Array.from(sidebar.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')).map((input) => input.value);
+
+        applyFeatureFilters(checkedFeature);
+    })
 }
 
 function handleSubmit(e: Event) {

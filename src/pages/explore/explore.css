@@ -136,6 +136,7 @@ body {
     box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
     margin-bottom: 2rem;
+
  }
 
  .explore-room-card img {
@@ -168,6 +169,29 @@ body {
 
  .explore-card-bio p, .explore-card-price-info p {
     margin: 0;
+}
+
+.explore-card-features {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.explore-feature-button {
+    border: none;
+    background: #6C6C6C;
+    border-radius: 4px;
+    padding: 0.25rem;
+    color: #fff;
+    transition: background-color  0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+}
+
+.explore-feature-button:hover {
+    background-color: #265C54;
+}
+
+.explore-feature-button.is-active {
+    background-color: #31786E;
+    box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
 }
 
 .explore-card-price {
