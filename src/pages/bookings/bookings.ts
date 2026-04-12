@@ -26,9 +26,8 @@ const cancelEditButton = document.getElementById("cancel-edit");
 let currentroomPrice: number = 0;
 
 async function startBookingPage() {
-  console.log("startBookingPAge har startet....");
   const data = await fetchDb();
-  console.log("data hentet fra API:", data);
+
 
   const savedRoom = localStorage.getItem("selectedRoom");
   if (savedRoom) {
@@ -50,7 +49,6 @@ function displayRoomData(room: any) {
   }
   currentroomPrice = room.pricePrNight;
 
-  console.log("rom data vises:", room.name);
 }
 
 document.addEventListener("DOMContentLoaded", startBookingPage);
@@ -103,7 +101,7 @@ function createBookingCard(checkIn: string, checkOut: string, msg: string, curre
 
   card.querySelector(".btn-cancel")?.addEventListener("click", () => {
     if (confirm("Er du sikker på du vil avbestille denne bookingen?")) {
-      card.remove(); // til senere en funksjon som sletter deletebookings(id)
+      card.remove(); 
     }
   });
   return card;
