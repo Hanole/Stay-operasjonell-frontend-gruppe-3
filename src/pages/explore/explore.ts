@@ -1,4 +1,5 @@
 /* Ole-Magnus Stallvik Hanole */
+// 12.04.2026
 
 import { fetchDb, type Room  } from '../../../api/api';
 import './explore.css';
