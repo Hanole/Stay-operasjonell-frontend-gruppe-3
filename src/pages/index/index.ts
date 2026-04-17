@@ -1,19 +1,36 @@
 const signupForm = document.querySelector(".signup") as HTMLFormElement;
 const loginForm = document.querySelector(".login") as HTMLFormElement;
 
-signupForm.addEventListener("submit", function (e) {
+signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const signUpData = new FormData(signupForm);
-  const username = signUpData.get("username") as string;
-  const email = signUpData.get("email") as string;
-  const password = signUpData.get("password") as string;
+  const signupData = new FormData(signupForm);
 
   const newUser = {
-    username: username,
-    email: email,
-    password: password,
+    userName: signupData.get("username") as string,
+    email: signupData.get("email") as string,
+    password: signupData.get("password") as string,
+    created: new Date().toISOString() as string,
   };
 
-  localStorage.setItem("user", JSON.stringify(newUser));
+  try {
+    const resp = await fetch("http://localhost:3000/api/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Authorization: "Bearer Daniel123",
+      },
+      body: JSON.stringify(newUser),
+    });
+
+    if (resp.ok) {
+      const result = await resp.json();
+      alert("bruker oprettet");
+      signupForm.reset();
+    } else {
+      console.error(resp.status);
+    }
+  } catch (error) {
+    console.error("feil med internett eller server nede", error);
+  }
 });
