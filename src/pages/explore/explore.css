@@ -11,7 +11,7 @@ body {
 
 .explore {
     background-color: #FFFFFF;
-    margin: 0 4rem;
+    margin: 0 6rem;
 }
 
 .explore-hero {
@@ -20,8 +20,8 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    padding: 5rem;
-    margin: 2rem 10rem;
+    padding: 6rem;
+    margin: 2rem auto;
     border-radius: 8px;
     color: white;
     user-select: none;
@@ -54,7 +54,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
     min-height: 80px;
-    margin-bottom: 2rem;
+    margin: 2rem auto;
 }
 
 .explore-content {
@@ -62,6 +62,7 @@ body {
     grid-template-columns: 3fr 1fr;
     gap: 2rem;
     align-items: flex-start;
+    margin: 0 auto;
 }
 
 .explore-filters-form {
@@ -119,7 +120,6 @@ body {
  }
 
  .explore-rooms {
-
     margin-bottom: 4rem;
 }
 
@@ -147,12 +147,12 @@ body {
     margin: auto 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 4rem;
+    gap: 2rem;
  }
 
  .explore-card-bio {
     display: flex;
+    
     flex-direction: column;
     gap: 0.3rem;
  }
@@ -168,12 +168,15 @@ body {
 .explore-card-features {
     display: flex;
     gap: 0.25rem;
+    flex-wrap: wrap;
+    
 }
 
 .explore-feature-button {
     border: none;
     background: #6C6C6C;
     border-radius: 4px;
+    
     padding: 0.25rem;
     color: #fff;
     transition: background-color  0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
@@ -243,6 +246,18 @@ body {
 }
 
 
+
+@media (max-width: 1380px) {
+    .explore-room-card {
+        height: 300px;
+    }
+
+    .explore-room-card img {
+        width: 40%;
+    }
+
+}
+
 @media (max-width: 1024px) {
     .explore {
         margin: 0 2rem;
@@ -250,6 +265,34 @@ body {
 
     .explore-content {
         grid-template-columns: 1fr;
+    }
+
+    .explore-room-card {
+        height: 250px;
+    }
+
+    .explore-room-card img {
+        width: 33%;
+    }
+
+    .explore-filters {
+        min-width: fit-content;
+    }
+
+    .explore-filters-form {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+
+        margin: auto;
+    }
+
+    .explore-filters-field {
+        border-radius: 8px;
+    }
+
+    .explore-filters-field button {
+        padding: 1.5rem;
     }
 
     .explore-toggle-container {
@@ -290,4 +333,41 @@ body {
     .explore-sidebar.is-open {
         display: flex;
     }
+}
+
+@media (max-width: 770px) {
+
+    .explore-content {
+        margin: auto;
+        padding: 0 2rem;
+    }
+
+    .explore-room-card {
+        height: 420px;
+        display: grid;
+    }
+
+    .explore-room-card img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        border-radius: 8px 8px 0;
+    }
+
+    .explore-card-details {
+        width: auto;
+        margin: 0 1.5rem;
+        
+    }
+
+    .explore-card-bio p {
+        overflow: hidden;
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+
+    .explore-card-bio h2 {
+        font-size: large;
+    }
+
 }

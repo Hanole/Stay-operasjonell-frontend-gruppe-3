@@ -1,5 +1,5 @@
 /* Ole-Magnus Stallvik Hanole */
-// 12.04.2026
+// 19.04.2026
 
 import { fetchDb, type Room  } from '../../../api/api';
 import './explore.css';
@@ -216,29 +216,27 @@ function featureButtonClicks() {
 function handleSubmit(e: Event) {
     e.preventDefault();
 
-    const { where, guests } = getFormValues();
-    const filteredRooms = filterRooms(allRooms, where, guests);
+    const { searchField, guests } = getFormValues();
+    const filteredRooms = filterRooms(allRooms, searchField, guests);
 
     loadRooms(filteredRooms);
 
 }
 
 function getFormValues() {
-    const where = (document.getElementById("filter-where") as HTMLInputElement).value.trim();
-    const fromDate = (document.getElementById("filter-from") as HTMLInputElement).value.trim();
-    const toDate = (document.getElementById("filter-to") as HTMLInputElement).value.trim();
+    const searchField = (document.getElementById("filter-freesearch") as HTMLInputElement).value.trim();
     const guestsString = (document.getElementById("filter-guests") as HTMLInputElement).value.trim();
 
     const guests = guestsString ? parseInt(guestsString, 10) : null;
 
-    return { where, fromDate, toDate, guests };
+    return { searchField, guests };
 }
 
-function filterRooms(rooms: Room[], where, guests) {
+function filterRooms(rooms: Room[], searchField: string, guests: number | null) {
     return rooms.filter((room) => {
-        if (where) {
+        if (searchField) {
             const searchable = `${room.name} ${room.description}`.toLowerCase();
-            if (!searchable.includes(where.toLowerCase())) {
+            if (!searchable.includes(searchField.toLowerCase())) {
                 return false;
             }
         }
@@ -250,15 +248,15 @@ function filterRooms(rooms: Room[], where, guests) {
 }
 
 function saveDateValues() {
-    const fromDates = document.getElementById("filter-from") as HTMLInputElement;
-    const toDates = document.getElementById("filter-to") as HTMLInputElement;
+    const fromDates = document.getElementById("from-date") as HTMLInputElement;
+    const toDates = document.getElementById("to-date") as HTMLInputElement;
 
     fromDates?.addEventListener('change', () => {
-        sessionStorage.setItem("filter-from-date", fromDates.value);
+        sessionStorage.setItem("store-from-date", fromDates.value);
     });
 
     toDates?.addEventListener("change", () => {
-        sessionStorage.setItem("filter-to-date", toDates.value);
+        sessionStorage.setItem("store-to-date", toDates.value);
     });
 
 }
