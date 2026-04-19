@@ -18,18 +18,19 @@ if (toggleBtn && sidebar) {
 }
 
 
+
 async function startExplore() {
     try {
         const { rooms } = await fetchDb();
-
         allRooms = rooms;
-        console.log(allRooms);
 
         loadRooms(allRooms);
         sidebarFilters(allRooms);
         featureButtonClicks();
 
         form.addEventListener("submit", handleSubmit);
+
+        saveDateValues();
     } catch (error) {
         console.error("Feil med API", error);
         allRooms = [];
@@ -120,8 +121,8 @@ function loadRooms(rooms: Room[]) {
 
 
             // Denne sørger for at knappene lagrer rommet i localStorage, og sender brukeren til room-details.html
-            const openRoomButton = card.querySelector<HTMLButtonElement>
-            (".explore-room-open");
+            const openRoomButton = card.querySelector<HTMLButtonElement>(".explore-room-open");
+
             if (openRoomButton) {
                 openRoomButton.addEventListener("click", () => {
                     console.log(room);
@@ -246,6 +247,20 @@ function filterRooms(rooms: Room[], where, guests) {
         }
         return true;
     })
+}
+
+function saveDateValues() {
+    const fromDates = document.getElementById("filter-from") as HTMLInputElement;
+    const toDates = document.getElementById("filter-to") as HTMLInputElement;
+
+    fromDates?.addEventListener('change', () => {
+        sessionStorage.setItem("filter-from-date", fromDates.value);
+    });
+
+    toDates?.addEventListener("change", () => {
+        sessionStorage.setItem("filter-to-date", toDates.value);
+    });
+
 }
 
 

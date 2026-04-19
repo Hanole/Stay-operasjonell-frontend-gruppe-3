@@ -81,12 +81,6 @@ body {
     padding: 1.5rem 0.5rem;
 }
 
-.hidden-label {
-    overflow: hidden;
-    position: absolute;
-    clip: rect(0, 0, 0, 0);
-}
-
 .explore-filters-field input {
     border: none;
     outline: none;
