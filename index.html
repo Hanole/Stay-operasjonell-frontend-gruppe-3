@@ -5,18 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="src/global.css" />
     <link rel="stylesheet" href="src/pages/index/index.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
     <title>Profil</title>
   </head>
   <body>
     <header>
       <div class="logo">
-        <a href="index.html"
-          ><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo"
-        /></a>
+        <a href="index.html"><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo" /></a>
       </div>
 
       <button class="hamburger-button" type="button">
@@ -36,12 +31,8 @@
 
     <main>
       <section class="login-section">
-        <img
-          class="house-img"
-          alt="bilde av en hytte ute på landet"
-          src="assets/countryhouseimg.jpg"
-        />
-        <div id="login">
+        <img class="house-img" alt="bilde av en hytte ute på landet" src="assets/countryhouseimg.jpg" />
+        <div id="login" class="hidden">
           <h1>Velkommen tilbake</h1>
           <p>Skriv inn påloggingsinformasjonen din for å fortsette</p>
           <form class="login">
@@ -50,12 +41,12 @@
             <label for="password-input">Passord</label>
             <input type="password" name="Password" />
             <button type="submit">Logg inn</button>
-            <p>Har du ikke en konto? Registrer deg her</p>
+            <p>Har du ikke en konto? <a href="#signup">Registrer deg her</a></p>
           </form>
         </div>
       </section>
 
-      <div id="signup" class="hidden">
+      <div id="signup">
         <h1>Opprett konto</h1>
         <p>Fyll inn informasjonen din for å opprette konto</p>
         <form class="signup">
@@ -64,9 +55,9 @@
           <label for="email-input">E-post addresse</label>
           <input type="text" name="email" />
           <label for="password-input">Passord</label>
-          <input type="password" name="Password" />
+          <input type="password" name="password" />
           <button type="submit">Opprett konto</button>
-          <p>Har du en allerede en konto? Logg inn her</p>
+          <p>Har du en allerede en konto? <a href="#login">Logg inn her</a></p>
         </form>
       </div>
 
