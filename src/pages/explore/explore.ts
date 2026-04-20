@@ -68,6 +68,15 @@ function resetAllFilters() {
         form.reset();
     }
 
+    const maxPriceInput = document.getElementById("max-price") as HTMLInputElement | null;
+    const maxPriceValue = document.getElementById("max-price-value");
+    if (maxPriceInput) {
+        maxPriceInput.value = maxPriceInput.max;
+    }
+    if (maxPriceInput && maxPriceValue) {
+        maxPriceValue.textContent = maxPriceInput.value;
+    }
+
     loadRooms(allRooms);
 }
 
@@ -158,6 +167,10 @@ function applyFeatureFilters(checkedFeature: string[]) {
 function sidebarFilters(rooms: Room[]) {
     const allFeatures = rooms.flatMap((room) => room.features);
     const sidebarFeatures = [...new Set(allFeatures)];
+    const highestPrice = Math.max(...rooms.map((room) => room.pricePrNight));
+
+    const maxPrice = document.querySelector(".explore-sidebar-maxprice");
+    if (!maxPrice) return;
 
     const sidebar = document.querySelector('.explore-sidebar-features');
     if (!sidebar) return;
@@ -180,6 +193,25 @@ function sidebarFilters(rooms: Room[]) {
 
         applyFeatureFilters(checkedFeature);
     });
+    
+    maxPrice.innerHTML = `
+        <h2>Maks pris per natt</h2>
+        <input id="max-price" type="range" min="0" max="${highestPrice}" step="100" value="${highestPrice}">
+        <p>Opptil <span id="max-price-value">${highestPrice}</span> kr</p>
+    `
+
+    const maxPriceInput = document.getElementById("max-price") as HTMLInputElement;
+    const maxPriceValue = document.getElementById("max-price-value");
+
+    maxPriceInput.addEventListener("input", () => {
+        if(maxPriceValue) {
+            maxPriceValue.textContent = maxPriceInput.value;
+        }
+
+        const { searchField, guests, maxPrice } = getFormValues();
+        const filteredRooms = filterRooms(allRooms, searchField, guests, maxPrice);
+        loadRooms(filteredRooms);
+    })
 
     const resetButton = document.querySelector('.explore-sidebar-reset');
     if (resetButton) {
@@ -216,8 +248,8 @@ function featureButtonClicks() {
 function handleSubmit(e: Event) {
     e.preventDefault();
 
-    const { searchField, guests } = getFormValues();
-    const filteredRooms = filterRooms(allRooms, searchField, guests);
+    const { searchField, guests, maxPrice } = getFormValues();
+    const filteredRooms = filterRooms(allRooms, searchField, guests, maxPrice);
 
     loadRooms(filteredRooms);
 
@@ -226,13 +258,15 @@ function handleSubmit(e: Event) {
 function getFormValues() {
     const searchField = (document.getElementById("filter-freesearch") as HTMLInputElement).value.trim();
     const guestsString = (document.getElementById("filter-guests") as HTMLInputElement).value.trim();
+    const maxPriceString = (document.getElementById("max-price") as HTMLInputElement | null)?.value ?? "";
 
     const guests = guestsString ? parseInt(guestsString, 10) : null;
+    const maxPrice = maxPriceString ? parseInt(maxPriceString, 10) : null;
 
-    return { searchField, guests };
+    return { searchField, guests, maxPrice };
 }
 
-function filterRooms(rooms: Room[], searchField: string, guests: number | null) {
+function filterRooms(rooms: Room[], searchField: string, guests: number | null, maxPrice: number | null) {
     return rooms.filter((room) => {
         if (searchField) {
             const searchable = `${room.name} ${room.description}`.toLowerCase();
@@ -243,6 +277,11 @@ function filterRooms(rooms: Room[], searchField: string, guests: number | null) 
         if (guests !== null && room.maxGuests < guests) {
             return false;
         }
+
+        if (maxPrice !== null && room.pricePrNight > maxPrice) {
+            return false;
+        }
+
         return true;
     })
 }
