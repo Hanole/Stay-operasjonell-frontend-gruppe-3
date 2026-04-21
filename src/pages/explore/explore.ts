@@ -1,4 +1,5 @@
 /* Ole-Magnus Stallvik Hanole */
+// 19.04.2026
 
 import { fetchDb, type Room  } from '../../../api/api';
 import './explore.css';
@@ -17,18 +18,19 @@ if (toggleBtn && sidebar) {
 }
 
 
+
 async function startExplore() {
     try {
         const { rooms } = await fetchDb();
-
         allRooms = rooms;
-        console.log(allRooms);
 
         loadRooms(allRooms);
         sidebarFilters(allRooms);
         featureButtonClicks();
 
         form.addEventListener("submit", handleSubmit);
+
+        saveDateValues();
     } catch (error) {
         console.error("Feil med API", error);
         allRooms = [];
@@ -64,6 +66,15 @@ function resetAllFilters() {
     const form = document.querySelector('.explore-filters-form') as HTMLFormElement;
     if (form) {
         form.reset();
+    }
+
+    const maxPriceInput = document.getElementById("max-price") as HTMLInputElement | null;
+    const maxPriceValue = document.getElementById("max-price-value");
+    if (maxPriceInput) {
+        maxPriceInput.value = maxPriceInput.max;
+    }
+    if (maxPriceInput && maxPriceValue) {
+        maxPriceValue.textContent = maxPriceInput.value;
     }
 
     loadRooms(allRooms);
@@ -119,8 +130,8 @@ function loadRooms(rooms: Room[]) {
 
 
             // Denne sørger for at knappene lagrer rommet i localStorage, og sender brukeren til room-details.html
-            const openRoomButton = card.querySelector<HTMLButtonElement>
-            (".explore-room-open");
+            const openRoomButton = card.querySelector<HTMLButtonElement>(".explore-room-open");
+
             if (openRoomButton) {
                 openRoomButton.addEventListener("click", () => {
                     console.log(room);
@@ -156,6 +167,10 @@ function applyFeatureFilters(checkedFeature: string[]) {
 function sidebarFilters(rooms: Room[]) {
     const allFeatures = rooms.flatMap((room) => room.features);
     const sidebarFeatures = [...new Set(allFeatures)];
+    const highestPrice = Math.max(...rooms.map((room) => room.pricePrNight));
+
+    const maxPrice = document.querySelector(".explore-sidebar-maxprice");
+    if (!maxPrice) return;
 
     const sidebar = document.querySelector('.explore-sidebar-features');
     if (!sidebar) return;
@@ -178,6 +193,25 @@ function sidebarFilters(rooms: Room[]) {
 
         applyFeatureFilters(checkedFeature);
     });
+    
+    maxPrice.innerHTML = `
+        <h2>Maks pris per natt</h2>
+        <input id="max-price" type="range" min="0" max="${highestPrice}" step="100" value="${highestPrice}">
+        <p>Opptil <span id="max-price-value">${highestPrice}</span> kr</p>
+    `
+
+    const maxPriceInput = document.getElementById("max-price") as HTMLInputElement;
+    const maxPriceValue = document.getElementById("max-price-value");
+
+    maxPriceInput.addEventListener("input", () => {
+        if(maxPriceValue) {
+            maxPriceValue.textContent = maxPriceInput.value;
+        }
+
+        const { searchField, guests, maxPrice } = getFormValues();
+        const filteredRooms = filterRooms(allRooms, searchField, guests, maxPrice);
+        loadRooms(filteredRooms);
+    })
 
     const resetButton = document.querySelector('.explore-sidebar-reset');
     if (resetButton) {
@@ -214,37 +248,56 @@ function featureButtonClicks() {
 function handleSubmit(e: Event) {
     e.preventDefault();
 
-    const { where, guests } = getFormValues();
-    const filteredRooms = filterRooms(allRooms, where, guests);
+    const { searchField, guests, maxPrice } = getFormValues();
+    const filteredRooms = filterRooms(allRooms, searchField, guests, maxPrice);
 
     loadRooms(filteredRooms);
 
 }
 
 function getFormValues() {
-    const where = (document.getElementById("filter-where") as HTMLInputElement).value.trim();
-    const fromDate = (document.getElementById("filter-from") as HTMLInputElement).value.trim();
-    const toDate = (document.getElementById("filter-to") as HTMLInputElement).value.trim();
+    const searchField = (document.getElementById("filter-freesearch") as HTMLInputElement).value.trim();
     const guestsString = (document.getElementById("filter-guests") as HTMLInputElement).value.trim();
+    const maxPriceString = (document.getElementById("max-price") as HTMLInputElement | null)?.value ?? "";
 
     const guests = guestsString ? parseInt(guestsString, 10) : null;
+    const maxPrice = maxPriceString ? parseInt(maxPriceString, 10) : null;
 
-    return { where, fromDate, toDate, guests };
+    return { searchField, guests, maxPrice };
 }
 
-function filterRooms(rooms: Room[], where, guests) {
+function filterRooms(rooms: Room[], searchField: string, guests: number | null, maxPrice: number | null) {
     return rooms.filter((room) => {
-        if (where) {
+        if (searchField) {
             const searchable = `${room.name} ${room.description}`.toLowerCase();
-            if (!searchable.includes(where.toLowerCase())) {
+            if (!searchable.includes(searchField.toLowerCase())) {
                 return false;
             }
         }
         if (guests !== null && room.maxGuests < guests) {
             return false;
         }
+
+        if (maxPrice !== null && room.pricePrNight > maxPrice) {
+            return false;
+        }
+
         return true;
     })
+}
+
+function saveDateValues() {
+    const fromDates = document.getElementById("from-date") as HTMLInputElement;
+    const toDates = document.getElementById("to-date") as HTMLInputElement;
+
+    fromDates?.addEventListener('change', () => {
+        sessionStorage.setItem("store-from-date", fromDates.value);
+    });
+
+    toDates?.addEventListener("change", () => {
+        sessionStorage.setItem("store-to-date", toDates.value);
+    });
+
 }
 
 

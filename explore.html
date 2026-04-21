@@ -42,19 +42,15 @@
         <section class="explore-filters">
             <form class="explore-filters-form">
                 <div class="explore-filters-field field-start"> 
-                    <label for="filter-where" class="hidden-label">Where</label> 
-                    <input id="filter-where" type="text" placeholder="Hvor vil du reise?">
+                    <input id="filter-freesearch" type="text" placeholder="Hvor vil du reise?">
                 </div>
                 <div class="explore-filters-field"> 
-                    <label for="filter-from" class="hidden-label" >From Date</label>
-                    <input id="filter-from" type="text" placeholder="Når vil du reise?" onfocus="this.type='date'">
+                    <input id="from-date" type="text" placeholder="Når vil du reise?" onfocus="this.type='date'">
                 </div>
                 <div class="explore-filters-field"> 
-                    <label for="filter-to" class="hidden-label">To Date</label>
-                    <input id="filter-to" type="text" placeholder="Når er reisen over?" onfocus="this.type='date'">
+                    <input id="to-date" type="text" placeholder="Når er reisen over?" onfocus="this.type='date'">
                 </div>
                 <div class="explore-filters-field"> 
-                    <label for="filter-guests" class="hidden-label">Max Guests</label> 
                     <input id="filter-guests" type="number" min="1" max="10" placeholder="Hvor mange blir dere?">
                 </div>
                 <div class="explore-filters-field field-end"> 
@@ -85,6 +81,11 @@
                     <h2>Filter by</h2>
                     <section class="explore-sidebar-features">
                         
+                    </section>
+                    <section class="explore-sidebar-maxprice">
+                        <h2>Maks pris per natt</h2>
+                        <input id="max-price" type="range" min="0" max="3000" step="100" value="3000">
+                        <p>Opptil <span id="max-price-value">3000</span> kr</p>
                     </section>
                     <button class="explore-sidebar-reset">Nullstill filter</button>
                 </section>
