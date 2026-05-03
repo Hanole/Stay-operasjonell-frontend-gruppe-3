@@ -1,14 +1,16 @@
 /* Ole-Magnus Stallvik Hanole */
 // 19.04.2026
 
-import { fetchDb, type Room  } from '../../../api/api';
+import { apiKey, fetchDb, type Room, type SavedSearch, type SavedSearchItem  } from '../../../api/api';
 import './explore.css';
 
 let allRooms: Room[] = [];
+let savedSearches: (SavedSearch & { id: number})[] = [];
 
 const form = document.querySelector(".explore-filters-form") as HTMLFormElement || null;
 const toggleBtn = document.querySelector<HTMLButtonElement>(".explore-sidebar-toggle");
 const sidebar = document.querySelector<HTMLBaseElement>("aside.explore-sidebar");
+const saveSearchButton = document.querySelector<HTMLButtonElement>(".explore-save-search");
 
 if (toggleBtn && sidebar) {
     toggleBtn.addEventListener("click", () => {
@@ -21,16 +23,26 @@ if (toggleBtn && sidebar) {
 
 async function startExplore() {
     try {
-        const { rooms } = await fetchDb();
+        const { rooms, savedSearches: fetchedSavedSearches } = await fetchDb();
         allRooms = rooms;
+        savedSearches = fetchedSavedSearches;
 
         loadRooms(allRooms);
         sidebarFilters(allRooms);
         featureButtonClicks();
+        listenForSavedSearch();
+
+        savedSearches.forEach((search) => {
+            showSavedSearch(search)
+        });
 
         form.addEventListener("submit", handleSubmit);
 
         saveDateValues();
+        saveSearchButton?.addEventListener("click", () => {
+            saveSearch();
+        })
+        
     } catch (error) {
         console.error("Feil med API", error);
         allRooms = [];
@@ -108,7 +120,7 @@ function loadRooms(rooms: Room[]) {
 
         card.innerHTML = `
             <div class="explore-room-card">
-                    <img src="/assets/rooms/Rectangle 14.png">
+                    <img src="${room.imageUrl || '/assets/rooms/Rectangle 14.png'}" alt="${room.name}">
                     <div class="explore-card-details">
                         <div class="explore-card-bio">
                             <h2>${room.name}</h2>
@@ -144,25 +156,51 @@ function loadRooms(rooms: Room[]) {
     });
 }
 
-function applyFeatureFilters(checkedFeature: string[]) {
-    const filtered = 
-        checkedFeature.length === 0
-            ? allRooms
-            : allRooms.filter((room) => 
-                checkedFeature.every((f) => room.features.includes(f))
-            );
-        
-        loadRooms(filtered);
+function applyAllFilters() {
+    const { searchField, guests, maxPrice } = getFormValues();
 
-        const buttons = document.querySelectorAll<HTMLButtonElement>(".explore-feature-button");
+    const featuresSidebar = document.querySelector(".explore-sidebar-features");
+    const checkedFeatures = featuresSidebar ? Array.from(featuresSidebar.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked'))
+    .map((input) => input.value) : [];
 
-        buttons.forEach((button) => {
-            const feature = button.dataset.feature;
-            if (!feature) return;
+    const filteredRooms = allRooms.filter((room) => {
+        if (searchField) {
+            const searchable = `${room.name} ${room.description}`.toLowerCase();
+            if (!searchable.includes(searchField.toLowerCase())) {
+                return false;
+            }
+        }
 
-            button.classList.toggle("is-active", checkedFeature.includes(feature));
-        })
+        if (guests !== null && room.maxGuests < guests) {
+            return false;
+        }
+
+        if (maxPrice !== null && room.pricePrNight > maxPrice) {
+            return false;
+        }
+
+        if (!checkedFeatures.every((feature) => room.features.includes(feature))) {
+            return false;
+        }
+
+        return true;
+    });
+
+    loadRooms(filteredRooms);
+    updateActiveFeatureButtons(checkedFeatures);
 }
+
+function updateActiveFeatureButtons(checkedFeatures: string[]) {
+    const buttons = document.querySelectorAll<HTMLButtonElement>(".explore-feature-button");
+
+    buttons.forEach((button) => {
+        const feature = button.dataset.feature;
+        if(!feature) return;
+
+        button.classList.toggle("is-active", checkedFeatures.includes(feature));
+    })
+}
+
 
 function sidebarFilters(rooms: Room[]) {
     const allFeatures = rooms.flatMap((room) => room.features);
@@ -187,11 +225,7 @@ function sidebarFilters(rooms: Room[]) {
     });
 
     sidebar.addEventListener('change', () => {
-        const checkedFeature = Array.from(
-            sidebar.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
-        ).map((input) => input.value);
-
-        applyFeatureFilters(checkedFeature);
+        applyAllFilters();
     });
     
     maxPrice.innerHTML = `
@@ -208,9 +242,7 @@ function sidebarFilters(rooms: Room[]) {
             maxPriceValue.textContent = maxPriceInput.value;
         }
 
-        const { searchField, guests, maxPrice } = getFormValues();
-        const filteredRooms = filterRooms(allRooms, searchField, guests, maxPrice);
-        loadRooms(filteredRooms);
+        applyAllFilters();
     })
 
     const resetButton = document.querySelector('.explore-sidebar-reset');
@@ -238,20 +270,13 @@ function featureButtonClicks() {
         if (!checkbox) return;
 
         checkbox.checked = !checkbox.checked;
-
-        const checkedFeature = Array.from(sidebar.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')).map((input) => input.value);
-
-        applyFeatureFilters(checkedFeature);
+        applyAllFilters();
     })
 }
 
 function handleSubmit(e: Event) {
     e.preventDefault();
-
-    const { searchField, guests, maxPrice } = getFormValues();
-    const filteredRooms = filterRooms(allRooms, searchField, guests, maxPrice);
-
-    loadRooms(filteredRooms);
+    applyAllFilters();
 
 }
 
@@ -264,26 +289,6 @@ function getFormValues() {
     const maxPrice = maxPriceString ? parseInt(maxPriceString, 10) : null;
 
     return { searchField, guests, maxPrice };
-}
-
-function filterRooms(rooms: Room[], searchField: string, guests: number | null, maxPrice: number | null) {
-    return rooms.filter((room) => {
-        if (searchField) {
-            const searchable = `${room.name} ${room.description}`.toLowerCase();
-            if (!searchable.includes(searchField.toLowerCase())) {
-                return false;
-            }
-        }
-        if (guests !== null && room.maxGuests < guests) {
-            return false;
-        }
-
-        if (maxPrice !== null && room.pricePrNight > maxPrice) {
-            return false;
-        }
-
-        return true;
-    })
 }
 
 function saveDateValues() {
@@ -300,5 +305,143 @@ function saveDateValues() {
 
 }
 
+function getSavedSearch(): SavedSearch {
+    const { guests, maxPrice } = getFormValues();
+
+    const featuresSidebar = document.querySelector('.explore-sidebar-features');
+    const features = featuresSidebar ? Array.from(featuresSidebar.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')).map((input) => input.value) : [];
+
+    return {
+        
+        guests,
+        features,
+        maxPrice,
+    } 
+}
+
+async function saveSearch() {
+    const savedSearch = getSavedSearch();
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/savedSearches`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization":  `Bearer ${apiKey}`
+            },
+            body: JSON.stringify(savedSearch)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Feil ved lagring av søk: ${response.status}`);
+        }
+
+        const createdSearch = await response.json();
+        console.log("lagret søøk:", createdSearch);
+
+        savedSearches.push(createdSearch);
+        showSavedSearch(createdSearch);
+    } catch (error) {
+        console.error("Klarte ikke å lagre søk:", error);
+    }
+}
+
+function showSavedSearch(savedSearch: SavedSearchItem) {
+    const container = document.querySelector(".explore-saved-searches");
+    if (!container) return;
+
+    container.innerHTML += `
+        <div class="saved-search-item">
+            <input type="checkbox" class="saved-search-checkbox" data-search-id="${savedSearch.id}">
+            ${savedSearch.guests ?? 0} gjester, ${savedSearch.features.join(", ") || "ingen features"}, maks ${savedSearch.maxPrice ?? "ingen"} Kr 
+            <button type="button" class="saved-search-delete" data-search-id="${savedSearch.id}">
+                Slett
+            </button>
+        </div>
+    `
+}
+
+function applySavedSearch(savedSearch: SavedSearch) {
+    const guestsInput = document.getElementById("filter-guests") as HTMLInputElement | null;
+    const maxPriceInput = document.getElementById("max-price") as HTMLInputElement | null;
+    const maxPriceValue = document.getElementById("max-price-value");
+    const featuresSidebar = document.querySelector(".explore-sidebar-features");
+    
+    if (guestsInput) {
+        guestsInput.value = savedSearch.guests !== null ? String(savedSearch.guests) : "";
+    }
+
+    if (maxPriceInput) {
+        maxPriceInput.value = savedSearch.maxPrice !== null ? String(savedSearch.maxPrice) : maxPriceInput.max;
+    }
+
+    if (maxPriceInput && maxPriceValue) {
+        maxPriceValue.textContent = maxPriceInput.value;
+    }
+
+    if (featuresSidebar) {
+        const checkboxes = featuresSidebar.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = savedSearch.features.includes(checkbox.value);
+        });
+    }
+
+    applyAllFilters();
+}
+
+async function deleteSearch(searchId: number) {
+    try {
+        const response = await fetch(`http://localhost:3000/api/savedSearches/${searchId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${apiKey}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Feil ved sletting av søk: ${response.status}`);
+        }
+
+        savedSearches = savedSearches.filter((search) => search.id !== searchId);
+
+        const item = document.querySelector(`.saved-search-delete[data-search-id="${searchId}"]`)?.closest(".saved-search-item");
+        item?.remove();
+    } catch (error) {
+        console.error("Kunne ikke slette søk:", error);
+    }
+    
+}
+
+function listenForSavedSearch() {
+    const container = document.querySelector(".explore-saved-searches");
+    if (!container) return;
+
+    container.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+
+        if (target.classList.contains("saved-search-checkbox")) {
+            const checkbox = target as HTMLInputElement;
+            const idAt = checkbox.dataset.searchId;
+            const id = idAt ? parseInt(idAt, 10) : NaN;
+
+            const savedSearch = savedSearches.find((search) => search.id === id);
+
+            if (checkbox.checked && savedSearch) {
+                applySavedSearch(savedSearch);
+            }
+            return;
+        }
+        
+        if (target.classList.contains("saved-search-delete")) {
+            const button = target as HTMLButtonElement;
+            const idAt = button.dataset.searchId;
+            const id = idAt ? parseInt(idAt, 10) : NaN;
+            if (!Number.isNaN(id)) {
+                deleteSearch(id);
+            }
+        }
+
+    })
+}
 
 startExplore();
