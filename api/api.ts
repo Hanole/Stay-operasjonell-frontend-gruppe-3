@@ -4,6 +4,8 @@ export async function fetchDb(): Promise<ApiData> {
   return response.json();
 }
 
+export const apiKey: string = "sk_B7xPq9Ns2Lw3Za8Rk5Ty1Um4Cv6Hd0Jg";
+
 export type Booking = {
   id: number; 
   userId: number;
@@ -40,13 +42,26 @@ export type Room = {
   description: string;
   features: string[];
   maxGuests: number;
+  imageUrl: string;
   reviews: Review[];
   created: string;
   updated: string;
+};
+
+export type SavedSearch = {
+  guests: number | null;
+  features: string[];
+  maxPrice: number | null;
+}
+
+export type SavedSearchItem = SavedSearch & {
+  id: number;
 };
 
 export type ApiData = {
   users: unknown[];
   rooms: Room[];
   bookings: unknown[];
+  savedSearches: SavedSearchItem[];
 };
+
