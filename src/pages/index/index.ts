@@ -1,4 +1,6 @@
-const signupForm = document.querySelector(".signup") as HTMLFormElement;
+import { apiKey } from "../../../api/api";
+
+const signupForm = document.querySelector("#signup .index-form") as HTMLFormElement;
 const loginForm = document.querySelector(".login") as HTMLFormElement;
 
 signupForm.addEventListener("submit", async (e) => {
@@ -10,7 +12,7 @@ signupForm.addEventListener("submit", async (e) => {
     userName: signupData.get("username") as string,
     email: signupData.get("email") as string,
     password: signupData.get("password") as string,
-    created: new Date().toISOString() as string,
+    created: new Date().toISOString(),
   };
 
   try {
@@ -18,14 +20,13 @@ signupForm.addEventListener("submit", async (e) => {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        Authorization: "Bearer Daniel123",
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify(newUser),
     });
 
     if (resp.ok) {
-      const result = await resp.json();
-      alert("bruker oprettet");
+      alert("bruker opprettet");
       signupForm.reset();
     } else {
       console.error(resp.status);
