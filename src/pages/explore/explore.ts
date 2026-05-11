@@ -10,16 +10,29 @@ let savedSearches: SavedSearchItem[] = [];
 const form = document.querySelector(".explore-filters-form") as HTMLFormElement || null;
 const toggleBtn = document.querySelector<HTMLButtonElement>(".explore-sidebar-toggle");
 const sidebar = document.querySelector<HTMLBaseElement>("aside.explore-sidebar");
-const saveSearchButton = document.querySelector<HTMLButtonElement>(".explore-save-search");
+const saveSearchButton = document.querySelector<HTMLButtonElement>(".save-search-button");
+const roomsContainer = document.querySelector<HTMLDivElement>(".explore-rooms");
+const breakpoint = window.matchMedia("(max-width: 1024px)");
 
-if (toggleBtn && sidebar) {
+if (toggleBtn && sidebar && roomsContainer) {
     toggleBtn.addEventListener("click", () => {
         const isOpen = sidebar.classList.toggle("is-open");
+        roomsContainer.classList.toggle("is-blurred", isOpen);
         toggleBtn.setAttribute("aria-expanded", String(isOpen));
     });
+    breakpoint.addEventListener("change", sidebarStates);
+    sidebarStates();
 }
 
+function sidebarStates() {
+    if (!toggleBtn || !sidebar || !roomsContainer) return;
 
+    if (!breakpoint.matches) {
+        sidebar.classList.remove("is-open");
+        roomsContainer.classList.remove("is-blurred");
+        toggleBtn.setAttribute("aria-expanded", "false");
+    }
+}
 
 async function startExplore() {
     try {
@@ -216,7 +229,7 @@ function sidebarFilters(rooms: Room[]) {
     sidebarFeatures.forEach((feature) => {
         const label = document.createElement('label');
         label.innerHTML = `
-        <input type="checkbox" value="${feature}">
+        <input class="explore-sidebar-input" type="checkbox" value="${feature}">
         ${feature}
         `;
         sidebar.appendChild(label);
@@ -377,7 +390,7 @@ function showSavedSearch(savedSearch: SavedSearchItem) {
 
     container.innerHTML += `
         <div class="saved-search-item" data-search-id="${savedSearch.id}">
-            <input type="checkbox" class="saved-search-checkbox" data-search-id="${savedSearch.id}">
+            <input type="radio" class="saved-search-checkbox" data-search-id="${savedSearch.id}">
             <span class="saved-search-text">${savedSearch.guests ?? 0} gjester, ${savedSearch.features.join(", ") || "ingen features"}, maks ${savedSearch.maxPrice ?? "ingen"} Kr</span>
             <button type="button" class="saved-search-update" data-search-id="${savedSearch.id}">Oppdater</button> 
             <button type="button" class="saved-search-delete" data-search-id="${savedSearch.id}">Slett</button>
@@ -459,8 +472,17 @@ function listenForSavedSearch() {
 
             const savedSearch = savedSearches.find((search) => search.id === id);
 
-            if (checkbox.checked && savedSearch) {
-                applySavedSearch(savedSearch);
+            if (checkbox.checked) {
+                const allCheckboxes = container.querySelectorAll<HTMLInputElement>(".saved-search-checkbox");
+                allCheckboxes.forEach((item) => {
+                    if (item !== checkbox) {
+                        item.checked = false;
+                    }
+                });
+                
+                if (savedSearch) {
+                    applySavedSearch(savedSearch);
+                }
             }
             return;
         }
