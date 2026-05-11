@@ -5,7 +5,7 @@ import { apiKey, fetchDb, type Room, type SavedSearch, type SavedSearchItem  } f
 import './explore.css';
 
 let allRooms: Room[] = [];
-let savedSearches: (SavedSearch & { id: number})[] = [];
+let savedSearches: SavedSearchItem[] = [];
 
 const form = document.querySelector(".explore-filters-form") as HTMLFormElement || null;
 const toggleBtn = document.querySelector<HTMLButtonElement>(".explore-sidebar-toggle");
@@ -32,9 +32,7 @@ async function startExplore() {
         featureButtonClicks();
         listenForSavedSearch();
 
-        savedSearches.forEach((search) => {
-            showSavedSearch(search)
-        });
+        renderSavedSearches();
 
         form.addEventListener("submit", handleSubmit);
 
@@ -340,9 +338,36 @@ async function saveSearch() {
         console.log("lagret søøk:", createdSearch);
 
         savedSearches.push(createdSearch);
-        showSavedSearch(createdSearch);
+        renderSavedSearches();
     } catch (error) {
         console.error("Klarte ikke å lagre søk:", error);
+    }
+}
+
+async function updateSavedSearch(savedSearch: SavedSearchItem) {
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/savedSearches/${savedSearch.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`
+            },
+            body: JSON.stringify(savedSearch)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Kunne ikke oppdatere søk: ${response.status}`)
+        }
+
+        const updatedSearch = await response.json();
+
+        savedSearches = savedSearches.map((search) => 
+            search.id === updatedSearch.id ? updatedSearch : search
+        );
+        renderSavedSearches();
+    } catch (error){
+        console.error("Kunne ikke oppdatere søk:", error)
     }
 }
 
@@ -351,12 +376,11 @@ function showSavedSearch(savedSearch: SavedSearchItem) {
     if (!container) return;
 
     container.innerHTML += `
-        <div class="saved-search-item">
+        <div class="saved-search-item" data-search-id="${savedSearch.id}">
             <input type="checkbox" class="saved-search-checkbox" data-search-id="${savedSearch.id}">
-            ${savedSearch.guests ?? 0} gjester, ${savedSearch.features.join(", ") || "ingen features"}, maks ${savedSearch.maxPrice ?? "ingen"} Kr 
-            <button type="button" class="saved-search-delete" data-search-id="${savedSearch.id}">
-                Slett
-            </button>
+            <span class="saved-search-text">${savedSearch.guests ?? 0} gjester, ${savedSearch.features.join(", ") || "ingen features"}, maks ${savedSearch.maxPrice ?? "ingen"} Kr</span>
+            <button type="button" class="saved-search-update" data-search-id="${savedSearch.id}">Oppdater</button> 
+            <button type="button" class="saved-search-delete" data-search-id="${savedSearch.id}">Slett</button>
         </div>
     `
 }
@@ -403,6 +427,7 @@ async function deleteSearch(searchId: number) {
         }
 
         savedSearches = savedSearches.filter((search) => search.id !== searchId);
+        renderSavedSearches();
 
         const item = document.querySelector(`.saved-search-delete[data-search-id="${searchId}"]`)?.closest(".saved-search-item");
         item?.remove();
@@ -410,6 +435,14 @@ async function deleteSearch(searchId: number) {
         console.error("Kunne ikke slette søk:", error);
     }
     
+}
+
+function renderSavedSearches() {
+    const container = document.querySelector(".explore-saved-searches");
+    if (!container) return;
+
+    container.innerHTML = "";
+    savedSearches.forEach((search) => showSavedSearch(search));
 }
 
 function listenForSavedSearch() {
@@ -431,6 +464,32 @@ function listenForSavedSearch() {
             }
             return;
         }
+
+        if (target.classList.contains("saved-search-update")) {
+            const button = target as HTMLButtonElement;
+            const idAt = button.dataset.searchId;
+            const id = idAt ? parseInt(idAt, 10) : NaN;
+            if (Number.isNaN(id)) return;
+
+            const { guests, maxPrice } = getFormValues();
+            const featuresSidebar = document.querySelector(".explore-sidebar-features");
+            const features = featuresSidebar ? Array.from(
+                featuresSidebar.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
+            ).map((input) => input.value) : [];
+
+            const existing = savedSearches.find((saved) => saved.id === id);
+            if (!existing) return;
+
+            const updated: SavedSearchItem = {
+                ...existing,
+                guests,
+                maxPrice,
+                features
+            };
+
+            updateSavedSearch(updated);
+            return;
+        }
         
         if (target.classList.contains("saved-search-delete")) {
             const button = target as HTMLButtonElement;
@@ -443,5 +502,6 @@ function listenForSavedSearch() {
 
     })
 }
+
 
 startExplore();
