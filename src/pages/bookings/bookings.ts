@@ -1,139 +1,196 @@
 // Daniel Barø
-import { fetchDb } from "../../../api/api";
+import { fetchDb, type Booking, type Room } from "../../../api/api";
+import { apiKey } from "../../../api/api";
 
-let currentEditingCard: number | null = null;
+let currentroomPrice: number = 0;
 
 const bookingForm = document.getElementById("booking-form") as HTMLFormElement;
-const roomIdInput = document.getElementById("booking-room-id") as HTMLFormElement;
 const checkInDate = document.getElementById("check-in-date") as HTMLInputElement;
 const checkOutDate = document.getElementById("check-out-date") as HTMLInputElement;
 const message = document.getElementById("message") as HTMLTextAreaElement;
-const bookingContainer = document.getElementById("booking-container");
+const bookingContainer = document.getElementById("booking-container") as HTMLElement;
+const noBookings = document.getElementById("no-bookings") as HTMLElement;
 const totalPrice = document.getElementById("total-price");
 
-const roomImage = document.getElementById("room-image");
 const roomName = document.getElementById("room-name");
 const roomInfoText = document.getElementById("room-info-text");
 const roomPrice = document.getElementById("room-price");
 
-const editModal = document.getElementById("edit-modal");
-const editForm = document.getElementById("edit-form");
-const editCheckInDate = document.getElementById("edit-check-in-date");
-const editCheckOutDate = document.getElementById("edit-check-out-date");
-const editMessage = document.getElementById("edit-message");
-const cancelEditButton = document.getElementById("cancel-edit");
+const editModal = document.getElementById("edit-modal") as HTMLElement;
+const editForm = document.getElementById("edit-form") as HTMLFormElement;
+const editBookingId = document.getElementById("edit-booking-id") as HTMLInputElement;
+const editCheckInDate = document.getElementById("edit-check-in-date") as HTMLInputElement;
+const editCheckOutDate = document.getElementById("edit-check-out-date") as HTMLInputElement;
+const editMessage = document.getElementById("edit-message") as HTMLTextAreaElement;
+const cancelEditBtn = document.getElementById("cancel-edit") as HTMLButtonElement;
 
-let currentroomPrice: number = 0;
+async function fetchBookings() {
+  try {
+    const response = await fetch("http://localhost:3000/api/db", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-async function startBookingPage() {
-  const data = await fetchDb();
+    if (!response.ok) {
+      console.error("API feil", response.status, response.statusText);
+      return;
+    }
+    const data = await response.json();
+    const bookings: Booking[] = data.bookings;
+    const rooms: Room[] = data.rooms;
 
+    bookingContainer.innerHTML = "";
+    noBookings.classList.toggle("hidden", bookings.length > 0);
+
+    bookings.forEach((booking) => {
+      const room = rooms.find((r: Room) => r.id === booking.roomId);
+      if (room) bookingContainer.appendChild(createBookingCard(booking, room));
+    });
+  } catch (error) {
+    console.error("oh no.", error);
+  }
+}
+
+bookingForm.addEventListener("submit", async (event) => {
+  console.log("Submit");
+  event.preventDefault();
 
   const savedRoom = localStorage.getItem("selectedRoom");
-  if (savedRoom) {
-    const selectedRoom = JSON.parse(savedRoom);
+  if (!savedRoom) return;
+  const selectedRoom = JSON.parse(savedRoom);
 
-    const room = data.rooms.find((r: any) => r.id === selectedRoom.id);
-    displayRoomData(room);
+  const newBooking = {
+    roomId: selectedRoom.id,
+    fromDate: checkInDate.value,
+    toDate: checkOutDate.value,
+    message: message.value,
+  };
+
+  try {
+    const response = await fetch("http://localhost:3000/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(newBooking),
+    });
+    if (!response.ok) {
+      console.error("API feil", response.status);
+      return;
+    }
+    bookingForm.reset();
+    await fetchBookings();
+  } catch (error) {
+    console.error("oh no.", error);
   }
-}
-
-function displayRoomData(room: any) {
-  if (!room) return;
-  if (roomName) roomName.textContent = room.name;
-  if (roomInfoText) roomInfoText.textContent = room.description;
-  if (roomPrice) roomPrice.textContent = `${room.pricePrNight} Kr per natt`;
-
-  if (roomImage && room.image) {
-    (roomImage as HTMLImageElement).src = room.image;
-  }
-  currentroomPrice = room.pricePrNight;
-
-}
-
-document.addEventListener("DOMContentLoaded", startBookingPage);
-
-bookingForm?.addEventListener("submit", function (event) {
-  event?.preventDefault();
-
-  const checkIn = checkInDate.value;
-  const checkOut = checkOutDate.value;
-  const msg = message.value;
-
-  const currentName = roomName?.textContent || "feil..";
-  const currentImg = (roomImage as HTMLImageElement).src || "";
-
-  const card = createBookingCard(checkIn, checkOut, msg, currentName, currentImg);
-  bookingContainer?.appendChild(card);
-
-  bookingForm.reset();
 });
 
-function createBookingCard(checkIn: string, checkOut: string, msg: string, currentName: string, currentImg: string) {
+// Modal knapp
+cancelEditBtn.addEventListener("click", () => {
+  editModal.classList.add("hidden");
+});
+
+editForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const id = editBookingId.value;
+
+  const updatedBooking = {
+    fromDate: editCheckInDate.value,
+    toDate: editCheckOutDate.value,
+    message: editMessage.value,
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3000/api/bookings/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(updatedBooking),
+    });
+
+    if (!response.ok) {
+      console.error("Endring av booking Failet", response.status);
+      return;
+    }
+
+    editModal.classList.add("hidden");
+    await fetchBookings();
+  } catch (error) {
+    console.error("Update failet", error);
+  }
+});
+
+function createBookingCard(booking: Booking, room: Room): HTMLElement {
   const card = document.createElement("div");
   card.className = "booking-item";
 
-  card.dataset.checkin = checkIn;
-  card.dataset.checkout = checkOut;
-  card.dataset.message = msg;
+  const currentName = room.name;
 
   card.innerHTML = `
-    <img src="${currentImg}" alt="Room image" />
     <div class="booking-info">
       <div class="booking-header">
-     <h3 id="booking-title">${currentName}</h3>
-        <span class="status pending">Pending</span>
+        <h3>${currentName}</h3>
+        <span class="status">Bekreftet</span>
       </div>
-      <p class="booking-dates">${checkIn}-${checkOut}</p>
-      <p class="booking-message">${msg}</p>
-      <div class="booking-actions">
-        <button class="btn-edit">Edit</button>
-        <button class="btn-cancel">Cancel</button>
-      </div>
-    </div>
+      <p class="booking-dates">${booking.fromDate} - ${booking.toDate}</p>
+      <p class="booking-message">${booking.message}</p>
+        <div class="booking-actions">
+          <button class="btn-edit">Rediger</button>
+          <button class="btn-cancel">Avbestill</button>
+        </div>
+     </div>  
   `;
+  card.querySelector(".btn-cancel")?.addEventListener("click", async () => {
+    if (!confirm("Vil du avbestille?")) return;
 
-  const editBtn = card.querySelector(".btn-edit") as HTMLButtonElement;
-
-  editBtn?.addEventListener("click", () => {
-    openEditModal(card, checkIn, checkOut, msg);
-  });
-
-  card.querySelector(".btn-cancel")?.addEventListener("click", () => {
-    if (confirm("Er du sikker på du vil avbestille denne bookingen?")) {
-      card.remove(); 
+    const res = await fetch(`http://localhost:3000/api/bookings/${booking.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      await fetchBookings();
+    } else {
+      alert("Noe gikk galt ved avbekreftelse");
     }
+  });
+  card.querySelector(".btn-edit")?.addEventListener("click", () => {
+    editBookingId.value = String(booking.id);
+    editCheckInDate.value = booking.fromDate;
+    editCheckOutDate.value = booking.toDate;
+    editMessage.value = booking.message;
+    editModal.classList.remove("hidden");
   });
   return card;
 }
 
-function openEditModal(card: HTMLElement, checkIn: string, checkOut: string, msg: string) {
-  currentEditingCard = card;
+async function startBookingPage() {
+  await fetchBookings();
 
-  (document.getElementById("edit-check-in-date") as HTMLInputElement).value = checkIn;
-  (document.getElementById("edit-check-out-date") as HTMLInputElement).value = checkOut;
-  (document.getElementById("edit-message") as HTMLTextAreaElement).value = msg;
-
-  editModal?.classList.remove("hidden");
-}
-cancelEditButton?.addEventListener("click", () => {
-  editModal?.classList.add("hidden");
-});
-
-editForm?.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const newCheckIn = (document.getElementById("edit-check-in-date") as HTMLInputElement).value;
-  const newCheckOut = (document.getElementById("edit-check-out-date") as HTMLInputElement).value;
-  const newMsg = (document.getElementById("edit-message") as HTMLTextAreaElement).value;
-
-  if (currentEditingCard) {
-    currentEditingCard.querySelector(".booking-dates")!.textContent = `${newCheckIn} - ${newCheckOut}`;
-    currentEditingCard.querySelector(".booking-message")!.textContent = newMsg;
+  const savedRoom = localStorage.getItem("selectedRoom");
+  if (savedRoom) {
+    const room: Room = JSON.parse(savedRoom);
+    displayRoomData(room);
   }
+}
 
-  editModal?.classList.remove("hidden");
-});
+function displayRoomData(room: Room) {
+  if (!room) return;
+  if (roomName) roomName.textContent = room.name;
+  if (roomInfoText) roomInfoText.textContent = room.description;
+  if (roomPrice) roomPrice.textContent = `${room.pricePrNight} Kr per natt`;
+  currentroomPrice = room.pricePrNight;
+}
+document.addEventListener("DOMContentLoaded", startBookingPage);
 
 function nightBooked(checkIn: string, checkOut: string) {
   const startDate = new Date(checkIn);
