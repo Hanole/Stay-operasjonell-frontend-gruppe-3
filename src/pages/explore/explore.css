@@ -11,7 +11,7 @@ body {
 
 .explore {
     background-color: #FFFFFF;
-    margin: 0 6rem;
+    margin: 0 6rem 6rem 6rem;
 }
 
 .explore-hero {
@@ -123,6 +123,12 @@ body {
     margin-bottom: 4rem;
 }
 
+.explore-rooms.is-blurred {
+    filter: blur(6px);
+    pointer-events: none;
+    user-select: none;
+}
+
  .explore-room-card {
     display: flex;
     width: 100%;
@@ -130,7 +136,6 @@ body {
     box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
     margin-bottom: 2rem;
-
  }
 
  .explore-room-card img {
@@ -235,14 +240,61 @@ body {
     padding: 0 1rem 2rem 1rem;
 }
 
+input[type="checkbox"],[type="radio"], [type="range"] {
+    accent-color: #265C54;
+}
 
 .explore-sidebar-features {
     display: flex;
     flex-direction: column;
+    gap: 0.2rem;
 }
 
 .explore-sidebar-toggle {
     display: none;
+}
+
+.explore-saved-searches {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.saved-search-item {
+    display: flex;
+    gap: 0.25rem;
+    
+}
+
+.saved-search-text {
+    margin: auto;
+}
+
+.explore-sidebar-reset, .saved-search-update, .saved-search-delete, .save-search-button {
+    border: none;
+    background: #6C6C6C;
+    border-radius: 4px;
+    padding: 0.5rem;
+    color: #fff;
+    transition: background-color  0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+}
+
+.explore-sidebar-reset:hover, .saved-search-update:hover, .save-search-button:hover {
+    background-color: #265C54;
+}
+
+.explore-sidebar-reset:active, .saved-search-update:active, .save-search-button:active {
+    background-color: #4d9289;
+    box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.25);
+}
+
+.saved-search-delete:hover {
+    background-color: #a73d3d;
+} 
+
+.saved-search-delete:active {
+    background-color: #f83434;
 }
 
 
