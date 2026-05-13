@@ -10,7 +10,7 @@ const checkOutDate = document.getElementById("check-out-date") as HTMLInputEleme
 const message = document.getElementById("message") as HTMLTextAreaElement;
 const bookingContainer = document.getElementById("booking-container") as HTMLElement;
 const noBookings = document.getElementById("no-bookings") as HTMLElement;
-const totalPrice = document.getElementById("total-price");
+const totalPrice = document.getElementById("total-price") as HTMLElement;
 
 const roomName = document.getElementById("room-name");
 const roomInfoText = document.getElementById("room-info-text");
@@ -55,10 +55,10 @@ async function fetchBookings() {
 }
 
 bookingForm.addEventListener("submit", async (event) => {
-  console.log("Submit");
   event.preventDefault();
 
   const savedRoom = localStorage.getItem("selectedRoom");
+
   if (!savedRoom) return;
   const selectedRoom = JSON.parse(savedRoom);
 
@@ -67,6 +67,7 @@ bookingForm.addEventListener("submit", async (event) => {
     fromDate: checkInDate.value,
     toDate: checkOutDate.value,
     message: message.value,
+    status: "pending",
   };
 
   try {
@@ -133,36 +134,55 @@ function createBookingCard(booking: Booking, room: Room): HTMLElement {
 
   const currentName = room.name;
 
+  const actionButton = booking.status === "cancelled" ? `<button class="btn-delete">Slett permanent</button>` : `<button class="btn-cancel">Avbestill</button>`;
+
   card.innerHTML = `
     <div class="booking-info">
       <div class="booking-header">
         <h3>${currentName}</h3>
-        <span class="status">Bekreftet</span>
+        <span class="status">${booking.status}</span>
       </div>
       <p class="booking-dates">${booking.fromDate} - ${booking.toDate}</p>
       <p class="booking-message">${booking.message}</p>
         <div class="booking-actions">
-          <button class="btn-edit">Rediger</button>
-          <button class="btn-cancel">Avbestill</button>
+          <button class="btn-edit">Rediger</button> 
+            ${actionButton}
         </div>
      </div>  
   `;
-  card.querySelector(".btn-cancel")?.addEventListener("click", async () => {
-    if (!confirm("Vil du avbestille?")) return;
 
-    const res = await fetch(`http://localhost:3000/api/bookings/${booking.id}`, {
-      method: "DELETE",
+  card.querySelector(".btn-cancel")?.addEventListener("click", async () => {
+    if (!confirm("Vil du avbestille")) return;
+
+    const response = await fetch(`http://localhost:3000/api/bookings/${booking.id}`, {
+      method: "PATCH",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
       },
+      body: JSON.stringify({ status: "cancelled" }),
     });
-    if (res.ok) {
+
+    if (response.ok) {
       await fetchBookings();
-    } else {
-      alert("Noe gikk galt ved avbekreftelse");
     }
   });
+
+  card.querySelector(".btn-delete")?.addEventListener("click", async () => {
+    if (!confirm("vil du slette permanent?")) return;
+
+    const response = await fetch(`http://localhost:3000/api/bookings/${booking.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
+    if (response.ok) {
+      await fetchBookings();
+    }
+  });
+
   card.querySelector(".btn-edit")?.addEventListener("click", () => {
     editBookingId.value = String(booking.id);
     editCheckInDate.value = booking.fromDate;
@@ -209,11 +229,11 @@ function totalPriceUpdate() {
   const nights = nightBooked(checkIn, checkOut);
 
   if (nights <= 0) {
-    totalPrice!.textContent = "Ugyldige datoer";
+    totalPrice.textContent = "Ugyldige datoer";
     return;
   }
   const total = nights * currentroomPrice;
-  totalPrice!.textContent = `${nights} netter x ${currentroomPrice} Kr = Total: ${total} Kr`;
+  totalPrice.textContent = `${nights} netter x ${currentroomPrice} Kr = Total: ${total} Kr`;
 }
 checkInDate.addEventListener("change", totalPriceUpdate);
 checkOutDate.addEventListener("change", totalPriceUpdate);
