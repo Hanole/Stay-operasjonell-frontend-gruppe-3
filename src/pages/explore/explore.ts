@@ -64,7 +64,7 @@ async function startExplore() {
                 <div class="empty-state api-error">
                     <h3>Kunne ikke hente rom</h3>
                     <p>Noe gikk galt med å hente data. Prøv igjen senere.</p>
-                    <button class="retry-button">Refresh</button>
+                    <button class="retry-button">Last inn på nytt</button>
                 </div>
             `;
 
@@ -241,7 +241,7 @@ function sidebarFilters(rooms: Room[]) {
     
     maxPrice.innerHTML = `
         <h2>Maks pris per natt</h2>
-        <input id="max-price" type="range" min="0" max="${highestPrice}" step="100" value="${highestPrice}">
+        <input id="max-price" type="range" min="0" max="${highestPrice}" step="100" value="${highestPrice}" aria-label="Velg maks pris med skyveknappen">
         <p>Opptil <span id="max-price-value">${highestPrice}</span> kr</p>
     `
 
@@ -391,7 +391,7 @@ function showSavedSearch(savedSearch: SavedSearchItem) {
     container.innerHTML += `
         <div class="saved-search-item" data-search-id="${savedSearch.id}">
             <input type="radio" class="saved-search-checkbox" data-search-id="${savedSearch.id}">
-            <span class="saved-search-text">${savedSearch.guests ?? 0} gjester, ${savedSearch.features.join(", ") || "ingen features"}, maks ${savedSearch.maxPrice ?? "ingen"} Kr</span>
+            <span class="saved-search-text">${savedSearch.guests ?? 0} gjester, ${savedSearch.features.join(", ") || "ingen egenskaper"}, maks ${savedSearch.maxPrice ?? "ingen"} Kr</span>
             <button type="button" class="saved-search-update" data-search-id="${savedSearch.id}">Oppdater</button> 
             <button type="button" class="saved-search-delete" data-search-id="${savedSearch.id}">Slett</button>
         </div>
