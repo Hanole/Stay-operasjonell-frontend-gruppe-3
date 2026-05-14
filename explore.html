@@ -1,0 +1,103 @@
+<!-- Ole-Magnus Stallvik Hanole -->
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/src/pages/explore/explore.css" rel="stylesheet" />
+    <link href="/src/global.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <title>Utforsk</title>
+</head>
+<body>
+     <header>
+      <div class="logo">
+        <a href="index.html"
+          ><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo"
+        /></a>
+      </div>
+
+      <button class="hamburger-button" type="button" aria-label="Åpne meny">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="navbar" id="mainNav" aria-label="main navigasjon">
+        <ul>
+          <li><a class="navbar-link" href="explore.html">Utforsk</a></li>
+          <li><a class="navbar-link" href="bookings.html">Bestillinger</a></li>
+          <li><a class="navbar-link" href="index.html">Profil</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="explore">
+        <section class="explore-hero">
+            <h1>Utforsk våre bed & breakfast-rom</h1>
+            <p>Se våre tilgjengelige rom, og bruk filtrene i sidebaren for å finne et rom som matcher dine behov.</p>
+        </section>
+        <section class="explore-filters">
+            <form class="explore-filters-form">
+                <div class="explore-filters-field field-start"> 
+                    <input id="filter-freesearch" type="text" placeholder="Hvor vil du reise?" aria-label="fri tekstsøk">
+                </div>
+                <div class="explore-filters-field"> 
+                    <input id="from-date" type="text" placeholder="Når vil du reise?" onfocus="this.type='date'" aria-label="fra-dato søk">
+                </div>
+                <div class="explore-filters-field"> 
+                    <input id="to-date" type="text" placeholder="Når er reisen over?" onfocus="this.type='date'" aria-label="til-dato søk">
+                </div>
+                <div class="explore-filters-field"> 
+                    <input id="filter-guests" type="number" min="1" max="10" placeholder="Hvor mange blir dere?" aria-label="antall gjester filter">
+                </div>
+                <div class="explore-filters-field field-end"> 
+                    <button type="submit" aria-label="Søkeknapp">Søk</button>
+                </div>
+            </form>
+        </section>
+        <section class="explore-filters-chosen">
+            <div>
+
+            </div>
+        </section>
+        <div class="explore-toggle-container">
+         <button 
+                class="explore-sidebar-toggle"
+                aria-controls="explore-sidebar"
+                aria-expanded="false">
+                Filtre
+            </button>
+        </div>
+        <section class="explore-content">
+           
+            <div class="explore-rooms">
+                
+            </div>
+            <aside class="explore-sidebar" id="explore-sidebar">
+                <section class="explore-sidebar-section">
+                    <h2>Filtrer etter</h2>
+                    <section class="explore-sidebar-features">
+                        
+                    </section>
+                    <section class="explore-sidebar-maxprice">
+                        <h2>Maks pris per natt</h2>
+                        <input id="max-price">
+                        <p>Opptil <span id="max-price-value">3000</span> kr</p>
+                    </section>
+                    <button class="explore-sidebar-reset">Nullstill filter</button>
+                </section>
+                <section class="explore-sidebar-section">
+                    <h2>Lagrede søk</h2>
+                    <div class="explore-saved-searches"></div>
+                    <button class="save-search-button">Lagre søk</button>
+                </section>
+            </aside>
+        </section>
+    </main>
+    <script type="module" src="/src/pages/explore/explore.ts"></script>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

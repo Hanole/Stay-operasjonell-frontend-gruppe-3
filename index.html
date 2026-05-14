@@ -2,25 +2,91 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>stay-operasjonell-frontend-gruppe-3</title>
-    <link href="index.css"> 
+    <link rel="stylesheet" href="src/global.css" />
+    <link rel="stylesheet" href="src/pages/index/index.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+    <title>Profil</title>
   </head>
   <body>
     <header>
+      <div class="logo">
+        <a href="index.html"><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo" /></a>
+      </div>
 
-      <nav aria-label="Main navigation">
+      <button class="hamburger-button" type="button">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="navbar" id="mainNav" aria-label="main navigation">
         <ul>
-          <li>Utforsk</li>
-          <li>Bestillinger</li>
-          <li>Profil</li>
+          <li><a class="navbar-link" href="explore.html">Utforsk</a></li>
+          <li><a class="navbar-link" href="bookings.html">Bestillinger</a></li>
+          <li><a class="navbar-link" href="index.html">Profil</a></li>
         </ul>
       </nav>
     </header>
 
+    <main>
+      <img class="house-img" alt="bilde av en hytte ute på landet" src="assets/countryhouseimg.jpg" />
+      
+      <section class="index-user-section">
+        <div id="login" class="index-login hidden">
+          <h1>Velkommen tilbake</h1>
+          <p>Skriv inn påloggingsinformasjonen din for å fortsette</p>
+          <form class="index-form">
+            <label for="email-input">E-post addresse</label>
+            <input type="text" name="email" />
+            <label for="password-input">Passord</label>
+            <input type="password" name="Password" />
+            <button type="submit">Logg inn</button>
+            <p>Har du ikke en konto? <a href="#signup">Registrer deg her</a></p>
+          </form>
+        </div>
 
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+        <div class="index-signup" id="signup">
+          <h1>Opprett konto</h1>
+          <p>Fyll inn informasjonen din for å opprette konto</p>
+          <form class="index-form">
+            <label for="username-input">Username</label>
+            <input type="text" name="username" />
+            <label for="email-input">E-post addresse</label>
+            <input type="text" name="email" />
+            <label for="password-input">Passord</label>
+            <input type="password" name="password" />
+            <button type="submit">Opprett konto</button>
+            <p>Har du en allerede en konto? <a href="#login">Logg inn her</a></p>
+          </form>
+        </div>
+
+        <div id="profil" class="index-profil hidden">
+          <h1>Welcome, (name)</h1>
+          <p>Created:</p>
+          <p>Updated:</p>
+          <form class="profile">
+            <label for="username-input">Username</label>
+            <input type="text" name="username" />
+            <label for="email-input">E-post addresse</label>
+            <input type="text" name="email" />
+            <label for="password-input">Passord</label>
+            <input type="password" name="Password" />
+            <button type="submit">Lagre</button>
+            <button type="button">Logg ut</button>
+            <button type="button">Slett konto</button>
+          </form>
+        </div>
+
+        <div class="index-to-explore">
+          <h2>Finn et ledig rom</h2>
+          <a href="/explore.html">Gå til Utforsk</a>
+
+        </div>
+
+      </section>
+    </main>
+
+    <script type="module" src="src/main.ts"></script>
   </body>
 </html>
