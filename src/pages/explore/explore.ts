@@ -2,6 +2,7 @@
 // 19.04.2026
 
 import { apiKey, fetchDb, type Room, type SavedSearch, type SavedSearchItem  } from '../../../api/api';
+import { renderRoomCardSkeleton } from '../../components/loadingState';
 import './explore.css';
 
 let allRooms: Room[] = [];
@@ -35,6 +36,13 @@ function sidebarStates() {
 }
 
 async function startExplore() {
+    const container = document.querySelector(".explore-rooms");
+    if (!container) return;
+
+    container.setAttribute("aria-busy", "true");
+    container.replaceChildren(...renderRoomCardSkeleton(6));
+
+
     try {
         const { rooms, savedSearches: fetchedSavedSearches } = await fetchDb();
         allRooms = rooms;
@@ -44,7 +52,6 @@ async function startExplore() {
         sidebarFilters(allRooms);
         featureButtonClicks();
         listenForSavedSearch();
-
         renderSavedSearches();
 
         form.addEventListener("submit", handleSubmit);
@@ -68,15 +75,14 @@ async function startExplore() {
                 </div>
             `;
 
-            const retryButton = container.querySelector('.retry-button');
-            if (retryButton) {
-                retryButton.addEventListener('click', startExplore);
-            }
-        }
+        const retryButton = container.querySelector('.retry-button');
+        retryButton?.addEventListener('click', startExplore) 
+    } finally {
+        container.setAttribute("aria-busy", "false");
     }
-
-
 }
+
+
 
 function resetAllFilters() {
     const sidebar = document.querySelector('.explore-sidebar-features');
