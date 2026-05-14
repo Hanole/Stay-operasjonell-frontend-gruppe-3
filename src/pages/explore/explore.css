@@ -20,11 +20,12 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    padding: 6rem;
+    padding: 8rem;
     margin: 2rem auto;
     border-radius: 8px;
-    color: white;
+    color: #FFFFFF;
     user-select: none;
+    
 
     background-image: url('./../../../assets/hero-img.jpg');
     background-size: cover;
@@ -40,9 +41,17 @@ body {
     border-radius: 8px;
     background: linear-gradient(
         to bottom,
-        rgba(0, 0, 0, 0.5),
-        rgba(0, 0, 0, 0.3)
+        rgba(0, 0, 0, 0.6),
+        rgba(0, 0, 0, 0.4)
     );
+}
+
+.explore-hero p, .explore-hero h1 {
+    font-weight: 900;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 4px 8px rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    text-align: center;
 }
 
 .explore-hero > * {
@@ -231,6 +240,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    position: sticky;
+    top: 1.5rem;
 }
 
 .explore-sidebar-section {
@@ -448,7 +459,7 @@ input[type="checkbox"],[type="radio"], [type="range"] {
         left: 50%;
         transform: translateX(-50%);
         width: min(90vw, 420px);
-        
+        top: auto;
     }
 
     .explore-sidebar.is-open {
