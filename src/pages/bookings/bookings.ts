@@ -63,6 +63,7 @@ bookingForm.addEventListener("submit", async (event) => {
   const selectedRoom = JSON.parse(savedRoom);
 
   const newBooking = {
+    userId: 1, // eller null pga scope
     roomId: selectedRoom.id,
     fromDate: checkInDate.value,
     toDate: checkOutDate.value,

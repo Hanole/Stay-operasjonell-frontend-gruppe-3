@@ -1,7 +1,7 @@
 <!-- Daniel Barø -->
 
 <!doctype html>
-<html lang="en">
+<html lang="no">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,7 +15,7 @@
         <a href="index.html"><img class="logo-img" src="assets/stay-logo.svg" alt="Stay logo" /></a>
       </div>
 
-      <button class="hamburger-button" type="button">
+      <button class="hamburger-button" type="button" aria-label="Åpne meny">
         <span></span>
         <span></span>
         <span></span>
@@ -30,83 +30,85 @@
         </ul>
       </nav>
     </header>
-    <section class="new-booking">
-      <h2>New booking</h2>
+    <main>
+      <section class="new-booking">
+        <h2>New booking</h2>
 
-      <div class="booking-card">
-        <div class="booking-form">
-          <form id="booking-form">
-            <input type="hidden" id="booking-room-id" />
+        <div class="booking-card">
+          <div class="booking-form">
+            <form id="booking-form">
+              <input type="hidden" id="booking-room-id" />
 
+              <div class="date-row">
+                <label>
+                  Check-in
+                  <input type="date" id="check-in-date" />
+                </label>
+
+                <label>
+                  Check-out
+                  <input type="date" id="check-out-date" />
+                </label>
+              </div>
+
+              <label>
+                Message
+                <textarea id="message" placeholder="Type your message here..."></textarea>
+              </label>
+
+              <button type="submit" id="sendBooking">Send →</button>
+            </form>
+          </div>
+
+          <div class="room-preview">
+            <img id="room-image" src="/assets-rom-detaljer/Bilde-rom-1.jpg" alt="Bidle av et hotellrom med en stor seng reid opp" />
+            <div class="room-info">
+              <h3 id="room-name">Nydelig dobbelt rom</h3>
+              <p id="room-info-text">Sjøutsikt</p>
+              <p id="room-price">2500 pr natt</p>
+              <p id="total-price"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="your-bookings">
+        <h2>My bookings</h2>
+
+        <div id="booking-container"></div>
+
+        <div id="no-bookings" class="hidden">
+          <p>You have no bookings yet.</p>
+        </div>
+      </section>
+
+      <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+          <h2>Endre booking</h2>
+          <form id="edit-form">
+            <input type="hidden" id="edit-booking-id" />
             <div class="date-row">
               <label>
                 Check-in
-                <input type="date" id="check-in-date" />
+                <input type="date" id="edit-check-in-date" />
               </label>
-
               <label>
                 Check-out
-                <input type="date" id="check-out-date" />
+                <input type="date" id="edit-check-out-date" />
               </label>
             </div>
-
             <label>
-              Message
-              <textarea id="message" placeholder="Type your message here..."></textarea>
+              Melding
+              <textarea id="edit-message"></textarea>
             </label>
-
-            <button type="submit" id="sendBooking">Send →</button>
+            <div class="button-row">
+              <button type="submit">Lagre endring</button>
+              <button type="button" id="cancel-edit">Avbryt</button>
+            </div>
           </form>
         </div>
-
-        <div class="room-preview">
-          <img id="room-image" src="/assets-rom-detaljer/Bilde-rom-1.jpg" alt="Room image" />
-          <div class="room-info">
-            <h3 id="room-name">Nydelig dobbelt rom</h3>
-            <p id="room-info-text">Sjøutsikt</p>
-            <p id="room-price">2500 pr natt</p>
-            <p id="total-price"></p>
-          </div>
-        </div>
       </div>
-    </section>
-
-    <section class="your-bookings">
-      <h2>My bookings</h2>
-
-      <div id="booking-container"></div>
-
-      <div id="no-bookings" class="hidden">
-        <p>You have no bookings yet.</p>
-      </div>
-    </section>
-
-    <div id="edit-modal" class="modal hidden">
-      <div class="modal-content">
-        <h2>Endre booking</h2>
-        <form id="edit-form">
-          <input type="hidden" id="edit-booking-id" />
-          <div class="date-row">
-            <label>
-              Check-in
-              <input type="date" id="edit-check-in-date" />
-            </label>
-            <label>
-              Check-out
-              <input type="date" id="edit-check-out-date" />
-            </label>
-          </div>
-          <label>
-            Melding
-            <textarea id="edit-message"></textarea>
-          </label>
-          <div class="button-row">
-            <button type="submit">Lagre endring</button>
-            <button type="button" id="cancel-edit">Avbryt</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    </main>
     <script type="module" src="src/pages/bookings/bookings.ts"></script>
   </body>
 </html>
