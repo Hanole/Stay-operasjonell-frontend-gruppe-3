@@ -64,10 +64,8 @@ async function startExplore() {
     } catch (error) {
         console.error("Feil med API", error);
         allRooms = [];
-
-        const container = document.querySelector('.explore-rooms');
-        if (container) {
-            container.innerHTML = `
+        
+        container.innerHTML = `
                 <div class="empty-state api-error">
                     <h3>Kunne ikke hente rom</h3>
                     <p>Noe gikk galt med å hente data. Prøv igjen senere.</p>
