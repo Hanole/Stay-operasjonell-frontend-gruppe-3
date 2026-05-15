@@ -25,6 +25,8 @@ const editMessage = document.getElementById("edit-message") as HTMLTextAreaEleme
 const cancelEditBtn = document.getElementById("cancel-edit") as HTMLButtonElement;
 
 async function fetchBookings() {
+  bookingContainer.innerHTML = `<div class="spinner" aria-label="Laster bookinger"></div>`;
+  //await new Promise((r) => setTimeout(r, 1500)); // test av spinner
   try {
     const response = await fetch("http://localhost:3000/api/db", {
       method: "GET",
@@ -236,5 +238,12 @@ function totalPriceUpdate() {
   const total = nights * currentroomPrice;
   totalPrice.textContent = `${nights} netter x ${currentroomPrice} Kr = Total: ${total} Kr`;
 }
-checkInDate.addEventListener("change", totalPriceUpdate);
+const today = new Date().toISOString().split("T")[0];
+checkInDate.min = today;
+checkOutDate.min = today;
+
+checkInDate.addEventListener("change", () => {
+  checkOutDate.min = checkInDate.value;
+  totalPriceUpdate();
+});
 checkOutDate.addEventListener("change", totalPriceUpdate);
